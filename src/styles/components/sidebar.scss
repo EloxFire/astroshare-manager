@@ -1,0 +1,9 @@
+@use '../global';
+
+.sidebar{
+  background-color: rgba(global.$white, 0.10);
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+}
