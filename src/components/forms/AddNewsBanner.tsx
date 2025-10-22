@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import '../../styles/components/forms/addNewsBannerForm.scss';
 import { NewsBanner } from '../cards/NewsBanner';
+import '../../styles/components/forms/addNewsBannerForm.scss';
 
 const AddNewsBanner = () => {
 
@@ -44,7 +44,19 @@ const AddNewsBanner = () => {
         <button type="submit">Ajouter</button>
       </form>
       <div className="news-banner-add-preview">
-        <NewsBanner title={title} content={content} imageUrl={imageUrl} />
+        <p>Prévisualisation :</p>
+        <NewsBanner
+          title={title}
+          description={content}
+          icon={imageUrl}
+          colors=''
+          type={linkType}
+          externalLink=''
+          internalRoute=''
+          visible={true}
+          order={0}
+          createdAt={new Date().toISOString()}
+        />
       </div>
     </div>
   )

@@ -1,4 +1,5 @@
 import AddNewsBanner from '../components/forms/AddNewsBanner';
+import AddChangelog from '../components/forms/AddChangelog';
 import NewsBannerHandler from '../components/NewsBannerHandler';
 import RichEditor from '../components/RichEditor';
 import '../styles/pages/home.scss';
@@ -15,11 +16,12 @@ const Home = () => {
       </section>
       <section className="column">
         <p className="column-title">Ajouter un changelog</p>
+        <AddChangelog />
       </section>
       <section className="column">
         <p className="column-title">Ajouter une ressource</p>
         {/* Future implementation of rich text editor */}
-        <RichEditor />
+        {/* <RichEditor /> */}
       </section>
     </main>
   );

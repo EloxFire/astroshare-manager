@@ -13,32 +13,37 @@ export const NewsBannerHandler = () => {
       const newsData = await news.json();
       console.log("News day", newsData);
       
-      setNewsData(newsData);
+      setNewsData(newsData.data);
     })()
   }, [])
 
+
   return (
-    <div className="news-banner-handler">
-      {
-        newsData.map((newsItem, index) => {
-          return (
-            <NewsBanner
-              key={index}
-              title={newsItem.title}
-              description={newsItem.description}
-              icon={newsItem.icon}
-              colors={newsItem.colors}
-              type={newsItem.type}
-              externalLink={newsItem.externalLink}
-              internalRoute={newsItem.internalRoute}
-              visible={newsItem.visible}
-              order={newsItem.order}
-              createdAt={newsItem.createdAt}
-            />
-          )
-        })
-      }
-    </div>
+    <>
+      <p>{newsData.length} actualités disponibles</p>
+      <div className="news-banner-handler">
+        <p>{newsData.length} actualités disponibles</p>
+        {
+          newsData.map((newsItem, index) => {
+            return (
+              <NewsBanner
+                key={index}
+                title={newsItem.title}
+                description={newsItem.description}
+                icon={newsItem.icon}
+                colors={newsItem.colors}
+                type={newsItem.type}
+                externalLink={newsItem.externalLink}
+                internalRoute={newsItem.internalRoute}
+                visible={newsItem.visible}
+                order={newsItem.order}
+                createdAt={newsItem.createdAt}
+              />
+            )
+          })
+        }
+      </div>
+    </>
   )
 }
 
