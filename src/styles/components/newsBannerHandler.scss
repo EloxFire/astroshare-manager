@@ -1,0 +1,7 @@
+@use '../global.scss' as global;
+
+.news-banner-handler{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

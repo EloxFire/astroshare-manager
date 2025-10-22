@@ -1,0 +1,35 @@
+@import '../global.scss';
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+
+  background-color: $black;
+  border-bottom: 1px solid $accent;
+
+  padding: 10px 20px;
+
+
+  &__logo{
+    img{
+      height: 40px;
+    }
+  }
+
+  .navbar__menu{
+    display: flex;
+    gap: 15px;
+
+    a{
+      text-decoration: none;
+      color: $white;
+      font-weight: 500;
+
+      &:hover{
+        color: $accent;
+      }
+    }
+  }
+}

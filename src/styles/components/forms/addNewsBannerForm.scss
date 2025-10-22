@@ -1,0 +1,86 @@
+@use '../../global.scss' as global;
+
+.news-banner-add{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .news-banner-add-form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: rgba(global.$white, 0.05);
+    border: 1px solid rgba(global.$white, 0.05);
+    border-radius: 10px;
+    padding: 15px;
+  
+    input{
+      background-color: rgba(global.$white, 0.02);
+      border: 1px solid rgba(global.$white, 0.1);
+      border-radius: 5px;
+      padding: 8px;
+      color: global.$white;
+  
+      &::placeholder{
+        color: rgba(global.$white, 0.5);
+      }
+    }
+  
+    textarea{
+      background-color: rgba(global.$white, 0.02);
+      border: 1px solid rgba(global.$white, 0.1);
+      border-radius: 5px;
+      padding: 8px;
+      color: global.$white;
+  
+      &::placeholder{
+        color: rgba(global.$white, 0.5);
+      }
+    }
+
+    .char-count{
+      font-size: 12px;
+      color: rgba(global.$white, 0.5);
+      text-align: right;
+    }
+
+    select{
+      background-color: rgba(global.$white, 0.02);
+      border: 1px solid rgba(global.$white, 0.1);
+      border-radius: 5px;
+      padding: 8px;
+      color: global.$white;
+
+      option{
+        background-color: rgba(global.$white, 0.02);
+        color: global.$white;
+
+        &:selected{
+          background-color: rgba(global.$white, 0.08);
+        }
+
+        &:disabled{
+          color: rgba(global.$white, 0.5);
+        }
+      }
+    }
+  
+    button[type="submit"]{
+      background-color: global.$accent;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      color: global.$black;
+      font-weight: 600;
+      cursor: pointer;
+  
+      &:hover{
+        background-color: darken(global.$accent, 10%);
+      }
+    }
+  }
+
+  .news-banner-add-preview{
+    margin-top: 10px;
+  }
+}

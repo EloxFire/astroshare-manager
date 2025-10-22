@@ -1,0 +1,201 @@
+@use '../global.scss' as global;
+
+.rich-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background-color: rgba(global.$white, 0.04);
+    border: 1px solid rgba(global.$white, 0.1);
+  }
+
+  &__toolbar-select {
+    background-color: rgba(global.$white, 0.08);
+    border: 1px solid rgba(global.$white, 0.15);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    color: rgba(global.$white, 0.85);
+    cursor: pointer;
+    transition: border-color 150ms ease, background-color 150ms ease;
+
+    &:hover,
+    &:focus-visible {
+      border-color: rgba(global.$accent, 0.7);
+      background-color: rgba(global.$white, 0.12);
+      outline: none;
+    }
+
+    option {
+      color: global.$black;
+    }
+  }
+
+  &__toolbar-button {
+    appearance: none;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background-color: transparent;
+    color: rgba(global.$white, 0.75);
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      border-color 150ms ease;
+
+    &:hover,
+    &:focus-visible {
+      color: global.$white;
+      background-color: rgba(global.$white, 0.1);
+      outline: none;
+    }
+
+    &--active {
+      color: global.$accent;
+      background-color: rgba(global.$accent, 0.15);
+    }
+  }
+
+  &__toolbar-separator {
+    color: rgba(global.$white, 0.15);
+    padding: 0 4px;
+  }
+
+  &__editor-wrapper {
+    position: relative;
+  }
+
+  &__editor {
+    min-height: 220px;
+    padding: 18px 20px;
+    border-radius: 10px;
+    background-color: rgba(global.$white, 0.03);
+    border: 1px solid rgba(global.$white, 0.1);
+    outline: none;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    caret-color: global.$accent;
+
+    &:focus {
+      border-color: rgba(global.$accent, 0.7);
+      box-shadow: 0 0 0 1px rgba(global.$accent, 0.25);
+    }
+  }
+
+  &__editor a {
+    color: global.$accent;
+    text-decoration: underline;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: none;
+    }
+  }
+
+  &__placeholder {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    pointer-events: none;
+    color: rgba(global.$white, 0.35);
+    font-size: 0.95rem;
+  }
+
+  &__paragraph {
+    margin-bottom: 0.75em;
+  }
+
+  &__quote {
+    margin: 1em 0;
+    padding-left: 14px;
+    border-left: 3px solid rgba(global.$accent, 0.6);
+    color: rgba(global.$white, 0.85);
+    font-style: italic;
+  }
+
+  &__code {
+    font-family: 'DM Mono', monospace;
+    background-color: rgba(global.$white, 0.08);
+    border-radius: 6px;
+    padding: 12px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+  }
+
+  &__text--bold {
+    font-weight: 700;
+  }
+
+  &__text--italic {
+    font-style: italic;
+  }
+
+  &__text--underline {
+    text-decoration: underline;
+  }
+
+  &__text--strike {
+    text-decoration: line-through;
+  }
+
+  &__text--code {
+    font-family: 'DM Mono', monospace;
+    background-color: rgba(global.$white, 0.12);
+    border-radius: 4px;
+    padding: 2px 4px;
+  }
+
+  &__list,
+  &__list--ordered {
+    margin: 0.5em 0 0.5em 1.3em;
+    padding-left: 0.7em;
+    color: rgba(global.$white, 0.9);
+  }
+
+  &__list-item,
+  &__list-item--nested {
+    margin-bottom: 0.35em;
+  }
+
+  &__list-item--nested {
+    list-style-type: circle;
+  }
+
+  &__image-wrapper {
+    display: inline-flex;
+    margin: 1em 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  &__image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid rgba(global.$white, 0.12);
+    box-shadow: 0 6px 20px rgba(global.$black, 0.45);
+  }
+
+  &__visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}

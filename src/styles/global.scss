@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 $black: #000000;
 $white: #ffffff;
 $accent: #F4C238;
@@ -7,15 +9,15 @@ $accent: #F4C238;
   margin: 0;
   padding: 0;
   color: $white;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
   background-color: $black;
-  padding: 10px;
   height: 100%;
 }
 
 #app {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }

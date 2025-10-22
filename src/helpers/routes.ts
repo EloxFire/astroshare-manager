@@ -1,6 +1,14 @@
 export const routes = {
   home: {
     path: "/",
-    label: "Accueil"
-  }
+    label: "Tableau de bord"
+  },
+  // news: {
+  //   path: "/news",
+  //   label: "Actualités"
+  // },
+  // users: {
+  //   path: "/users",
+  //   label: "Utilisateurs"
+  // }
 }

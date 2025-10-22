@@ -1,0 +1,43 @@
+@use '../../global.scss' as global;
+
+.news-banner-preview{
+  display: flex;
+  flex-direction: row;
+  border: 1px solid rgba(global.$white, 0.05);
+  border-radius: 10px;
+  padding: 10px;
+  background-color: rgba(global.$white, 0.05);
+  align-items: center;
+  gap: 10px;
+  max-width: 450px;
+  height: 70px;
+  text-decoration: none;
+  
+
+  .news-banner-image{
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+  }
+
+  .news-banner-details{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    // wrap text if too long
+    flex: 1;
+    overflow: hidden;
+
+    .news-banner-title{
+      font-size: 14px;
+      font-weight: 700;
+      color: global.$white;
+    }
+
+    .news-banner-description{
+      font-size: 12px;
+      color: rgba(global.$white, 0.8);
+      font-family: 'DMMono', monospace;
+    }
+  }
+}
