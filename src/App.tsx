@@ -8,12 +8,17 @@ function App() {
 
   return (
     <div id='app'>
-      <BrowserRouter>
-      <Navbar />
-        <Routes>
-           <Route index path={routes.home.path} element={<Home />}/>
-        </Routes>
-      </BrowserRouter>
+      {/* SIDEBAR */}
+      <aside className="sidebar">ffef</aside>
+      {/* MAIN CONTENT */}
+      <main className="main-content">
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route index path={routes.home.path} element={<Home />}/>
+          </Routes>
+        </BrowserRouter>
+      </main>
     </div>
   )
 }

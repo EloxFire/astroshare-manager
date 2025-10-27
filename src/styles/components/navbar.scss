@@ -2,7 +2,6 @@
 
 .navbar {
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: 20px;
 
@@ -12,9 +11,15 @@
   padding: 10px 20px;
 
 
+  &__current-route{
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+
   &__logo{
     img{
-      height: 40px;
+      height: 60px;
     }
   }
 
