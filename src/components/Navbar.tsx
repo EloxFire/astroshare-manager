@@ -1,26 +1,28 @@
-import {Link, NavLink} from 'react-router'
+import { Link, useLocation } from 'react-router'
 import '../styles/components/navbar.scss'
-import { routes } from '../helpers/routes'
+import { useEffect, useState } from 'react';
+import { routes } from '../helpers/routes';
 
 
 export const Navbar = () => {
 
+  const location = useLocation();
+  const [currentRouteLabel, setCurrentRouteLabel] = useState('')
 
-  // Get router route title for current path
-  const getCurrentRouteTitle = () => {
-    const currentPath = window.location.pathname;
-    const currentRoute = Object.values(routes).find(route => route.path === currentPath);
-    return currentRoute ? currentRoute.label : '';
-  };
+  useEffect(() => {
+    const matchedRoute = Object.values(routes).find(
+      ({ path }) => path === location.pathname,
+    );
 
-  const currentRouteTitle = getCurrentRouteTitle();
+    setCurrentRouteLabel(matchedRoute?.label ?? '');
+  }, [location.pathname]);
 
   return (
     <header className="navbar">
       <Link to="/" className="navbar__logo" aria-label="Retour à l'accueil">
         <img src="/images/logos/logo_white.png" alt="Logo d'Astroshare" />
       </Link>
-      <p className="navbar__current-route">{currentRouteTitle}</p>
+      <p className="navbar__current-route">{currentRouteLabel}</p>
     </header>
   )
 }

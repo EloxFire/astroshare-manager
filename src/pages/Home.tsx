@@ -1,13 +1,22 @@
-import AddNewsBanner from '../components/forms/AddNewsBanner';
-import AddChangelog from '../components/forms/AddChangelog';
-import NewsBannerHandler from '../components/NewsBannerHandler';
-import RichEditor from '../components/RichEditor';
+import { DashboardCard } from '../components/cards/DashboardCard';
 import '../styles/pages/home.scss';
+import { Users } from 'lucide-react';
 
 const Home = () => {
   return (
     <main className="home">
-      <section className="column">
+      <div>
+        <h1>Tableau de bord</h1>
+        <p>Bienvenue dans l'interface d'aperçu global des outils Astroshare</p>
+      </div>
+
+      <div className='cards-container'>
+        <DashboardCard icon={Users} title="Ressources" value="6" />
+        <DashboardCard icon={Users} title="Inscrits" value="12" />
+        <DashboardCard icon={Users} title="Changelogs" value="8" />
+        <DashboardCard icon={Users} title="Changelogs" value="8" />
+      </div>
+      {/* <section className="column">
         <p className="column-title">Ajouter une actualité</p>
         <AddNewsBanner />
         <hr />
@@ -20,9 +29,7 @@ const Home = () => {
       </section>
       <section className="column">
         <p className="column-title">Ajouter une ressource</p>
-        {/* Future implementation of rich text editor */}
-        {/* <RichEditor /> */}
-      </section>
+      </section> */}
     </main>
   );
 };

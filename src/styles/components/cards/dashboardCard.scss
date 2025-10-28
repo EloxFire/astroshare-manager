@@ -1,0 +1,32 @@
+@use '../../global.scss' as global;
+
+.dashboard-card{
+  background-color: rgba(global.$white, 0.08);
+  border: 1px solid rgba(global.$white, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  height: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  h2 {
+    font-size: 1.1em;
+    opacity: .5;
+    font-weight: 400;
+  }
+
+  p {
+    font-size: 2em;
+    font-family: 'DM Mono', monospace;
+    font-weight: 700;
+  }
+
+  .icon {
+    padding: 15px;
+    background-color: rgba(global.$accent, 0.1);
+    margin-right: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(global.$accent, 0.2);
+  }
+}
