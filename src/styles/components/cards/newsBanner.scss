@@ -29,15 +29,15 @@
     overflow: hidden;
 
     .news-banner-title{
-      font-size: 14px;
+      font-size: global.$font-size-sm;
       font-weight: 700;
       color: global.$white;
     }
 
     .news-banner-description{
-      font-size: 12px;
+      font-size: global.$font-size-xs;
       color: rgba(global.$white, 0.8);
-      font-family: 'DMMono', monospace;
+      font-family: 'DM Mono', monospace;
     }
   }
 }

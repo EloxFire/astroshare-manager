@@ -7,9 +7,10 @@ interface DashboardCardProps {
   title: string
   value: string | number
   button?: boolean
+  small?: boolean
 }
 
-export const DashboardCard = ({ icon, title, value, button }: DashboardCardProps) => {
+export const DashboardCard = ({ icon, title, value, button, small }: DashboardCardProps) => {
 
   const Icon = icon
 
@@ -19,14 +20,32 @@ export const DashboardCard = ({ icon, title, value, button }: DashboardCardProps
     console.log(`${title} card clicked`)
   }
 
+  const classNames = [
+    'dashboard-card',
+    button ? 'clickable' : '',
+    small ? 'dashboard-card--small' : ''
+  ].filter(Boolean).join(' ')
+
+  const titleClassNames = [
+    'card-title',
+    button ? 'button' : '',
+    small ? 'small' : ''
+  ].filter(Boolean).join(' ')
+
+  const valueClassNames = [
+    'card-value',
+    button ? 'button' : '',
+    small ? 'small' : ''
+  ].filter(Boolean).join(' ')
+
   return (
-    <button onClick={handleClick} className="dashboard-card">
+    <button onClick={handleClick} className={classNames}>
       <div className="icon">
-        <Icon size={32} color={colors.accent} />
+        <Icon size={small ? 24 : 32} color={colors.accent} />
       </div>
       <div>
-        <h2>{title}</h2>
-        <p>{value}</p>
+        <h2 className={titleClassNames}>{title}</h2>
+        <p className={valueClassNames}>{value}</p>
       </div>
     </button>
   )

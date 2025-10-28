@@ -39,7 +39,7 @@
     }
 
     .char-count{
-      font-size: 12px;
+      font-size: global.$font-size-xs;
       color: rgba(global.$white, 0.5);
       text-align: right;
     }
@@ -72,6 +72,7 @@
       padding: 10px;
       color: global.$black;
       font-weight: 600;
+      font-size: global.$font-size-sm;
       cursor: pointer;
   
       &:hover{

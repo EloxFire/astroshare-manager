@@ -10,16 +10,56 @@
   flex-direction: row;
   align-items: center;
 
-  h2 {
-    font-size: 1.1em;
-    opacity: .5;
-    font-weight: 400;
+  &.clickable {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgba(global.$white, 0.15);
+    }
   }
 
-  p {
-    font-size: 2em;
+  .card-title {
+    font-size: global.$font-size-base;
+    opacity: .5;
+    font-weight: 400;
+    text-align: left;
+
+    &.button{
+      font-size: global.$font-size-lg;
+      opacity: 1;
+      font-weight: 700;
+    }
+
+    &.small {
+      font-size: global.$font-size-sm;
+
+      &.button {
+        font-size: global.$font-size-md;
+      }
+    }
+  }
+
+  .card-value {
+    font-size: global.$font-size-xl;
     font-family: 'DM Mono', monospace;
     font-weight: 700;
+    text-align: left;
+
+    &.button{
+      font-size: global.$font-size-base;
+      font-weight: 400;
+      text-align: left;
+      opacity: .8;
+    }
+
+    &.small {
+      font-size: global.$font-size-lg;
+
+      &.button {
+        font-size: global.$font-size-sm;
+      }
+    }
   }
 
   .icon {
@@ -28,5 +68,16 @@
     margin-right: 15px;
     border-radius: 10px;
     border: 1px solid rgba(global.$accent, 0.2);
+  }
+
+  &--small {
+    padding: 12px 14px;
+    border-radius: 8px;
+
+    .icon {
+      padding: 10px;
+      margin-right: 12px;
+      border-radius: 8px;
+    }
   }
 }

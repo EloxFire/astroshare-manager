@@ -19,9 +19,6 @@ export const Navbar = () => {
 
   return (
     <header className="navbar">
-      <Link to="/" className="navbar__logo" aria-label="Retour à l'accueil">
-        <img src="/images/logos/logo_white.png" alt="Logo d'Astroshare" />
-      </Link>
       <p className="navbar__current-route">{currentRouteLabel}</p>
     </header>
   )

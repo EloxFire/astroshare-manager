@@ -2,50 +2,84 @@
 
 .sidebar{
   height: 100vh;
-  background-color: global.$black;
-  border-right: 1px solid global.$accent;
+  background-color: rgba(global.$white, 0.05);
+  border-right: 1px solid rgba(global.$white, 0.1);
   padding: 10px;
 
   .header{
     height: 80px;
+
+    img{
+      height: 60px;
+    }
   }
 
   .sidebar-nav{
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    
+    gap: 8px;
+
+    .sidebar-group{
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
     .sidebar-item{
-      background-color: global.$black;
+      background-color: transparent;
       border: none;
       color: global.$white;
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 10px;
+      padding: 8px 12px;
       text-decoration: none;
-      font-size: 1.1em;
-      border-radius: 5px;
+      font-size: global.$font-size-sm;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 
       &:hover{
-        background-color: rgba(global.$accent, 0.2);
+        background-color: rgba(global.$accent, 0.15);
+        background-color: color-mix(in srgb, var(--item-color, #{global.$accent}) 16%, transparent);
         cursor: pointer;
-
-        .sidebar-icon{
-          color: global.$black;
-        }
       }
 
       &.active{
-        background-color: rgba(global.$accent, 0.2);
-        border: 1px solid rgba(global.$accent, 0.2);
-
-        .sidebar-icon{
-          color: global.$black;
-        }
-
-        color: global.$accent;
+        background-color: rgba(global.$accent, 0.18);
+        background-color: color-mix(in srgb, var(--item-color, #{global.$accent}) 26%, transparent);
+        border: 1px solid rgba(global.$accent, 0.25);
+        border-color: color-mix(in srgb, var(--item-color, #{global.$accent}) 40%, transparent);
+        color: var(--item-color, #{global.$accent});
       }
+
+      &--parent{
+        font-weight: 600;
+      }
+
+      &--child{
+        font-size: global.$font-size-xs;
+        border-radius: 5px;
+      }
+
+      .sidebar-icon{
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .sidebar-item--child .sidebar-icon{
+      width: 16px;
+      height: 16px;
+    }
+
+    .sidebar-children{
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-left: 16px;
+      padding-left: 12px;
+      border-left: 1px solid rgba(global.$white, 0.08);
     }
   }
 }

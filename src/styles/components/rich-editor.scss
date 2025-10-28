@@ -21,7 +21,7 @@
     border: 1px solid rgba(global.$white, 0.15);
     border-radius: 6px;
     padding: 6px 10px;
-    font-size: 0.85rem;
+    font-size: global.$font-size-sm;
     color: rgba(global.$white, 0.85);
     cursor: pointer;
     transition: border-color 150ms ease, background-color 150ms ease;
@@ -43,7 +43,7 @@
     border: none;
     border-radius: 6px;
     padding: 6px 12px;
-    font-size: 0.85rem;
+    font-size: global.$font-size-sm;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     background-color: transparent;
@@ -83,7 +83,7 @@
     background-color: rgba(global.$white, 0.03);
     border: 1px solid rgba(global.$white, 0.1);
     outline: none;
-    font-size: 0.95rem;
+    font-size: global.$font-size-base;
     line-height: 1.6;
     caret-color: global.$accent;
 
@@ -109,7 +109,7 @@
     left: 20px;
     pointer-events: none;
     color: rgba(global.$white, 0.35);
-    font-size: 0.95rem;
+    font-size: global.$font-size-base;
   }
 
   &__paragraph {
@@ -130,7 +130,7 @@
     border-radius: 6px;
     padding: 12px;
     overflow-x: auto;
-    font-size: 0.85rem;
+    font-size: global.$font-size-sm;
   }
 
   &__text--bold {

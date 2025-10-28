@@ -6,6 +6,7 @@ type RouteConfig = {
   label: string;
   color: string;
   Icon: LucideIcon;
+  parent?: string;
 };
 
 export const routes: Record<string, RouteConfig> = {
@@ -32,5 +33,13 @@ export const routes: Record<string, RouteConfig> = {
     label: "Changelogs",
     color: "#ff6900",
     Icon: Database,
+    parent: "contents"
   },
+  newsBanners: {
+    path: "/news-banners",
+    label: "Bannières d'actualités",
+    color: "#ff6900",
+    Icon: Database,
+    parent: "contents"
+  }
 };

@@ -1,0 +1,142 @@
+@use '../global.scss' as global;
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+
+  &__head {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__header {
+    position: sticky;
+    top: 0;
+    background: rgba(global.$black, 0.95);
+    backdrop-filter: blur(12px);
+    text-align: left;
+    font-size: global.$font-size-xs;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 12px 18px;
+    border-bottom: 1px solid rgba(global.$white, 0.1);
+    color: rgba(global.$white, 0.7);
+
+    &--actions {
+      text-align: right;
+    }
+  }
+
+  tbody tr {
+    transition: background-color 0.25s ease;
+
+    &:hover {
+      background-color: rgba(global.$white, 0.06);
+    }
+  }
+
+  &__cell {
+    padding: 12px 18px;
+    font-size: global.$font-size-base;
+    border-bottom: 1px solid rgba(global.$white, 0.06);
+    text-align: left;
+
+    &--left {
+      text-align: left;
+    }
+
+    &--center {
+      text-align: center;
+    }
+
+    &--right {
+      text-align: right;
+    }
+
+    &--loading,
+    &--empty {
+      text-align: center;
+      font-style: italic;
+      opacity: 0.7;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid rgba(global.$white, 0.06);
+  }
+
+  &__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background-color: rgba(global.$white, 0.08);
+    border: 1px solid transparent;
+    color: global.$white;
+    font-size: global.$font-size-xs;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &--ghost {
+      background-color: rgba(global.$white, 0.05);
+      border-color: rgba(global.$white, 0.1);
+
+      &:hover:not(:disabled) {
+        background-color: rgba(global.$white, 0.12);
+      }
+    }
+
+    &--danger {
+      background-color: rgba(255, 76, 76, 0.12);
+      border-color: rgba(255, 76, 76, 0.3);
+      color: #ff4c4c;
+
+      &:hover:not(:disabled) {
+        background-color: rgba(255, 76, 76, 0.2);
+      }
+    }
+
+    &--default {
+      background-color: rgba(global.$accent, 0.15);
+      border-color: rgba(global.$accent, 0.3);
+      color: global.$accent;
+
+      &:hover:not(:disabled) {
+        background-color: rgba(global.$accent, 0.25);
+      }
+    }
+  }
+
+  &__placeholder {
+    opacity: 0.4;
+  }
+
+  tbody tr:last-child {
+    .data-table__cell,
+    .data-table__actions {
+      border-bottom: none;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    min-width: 100%;
+
+    &__cell,
+    &__header {
+      padding: 16px 18px;
+    }
+  }
+}

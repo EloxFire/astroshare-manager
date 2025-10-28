@@ -4,12 +4,31 @@ $black: #000000;
 $white: #ffffff;
 $accent: #F4C238;
 
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-md: 1.125rem;
+$font-size-lg: 1.25rem;
+$font-size-xl: 1.5rem;
+$font-size-2xl: 1.875rem;
+
+:root {
+  --font-size-xs: #{$font-size-xs};
+  --font-size-sm: #{$font-size-sm};
+  --font-size-base: #{$font-size-base};
+  --font-size-md: #{$font-size-md};
+  --font-size-lg: #{$font-size-lg};
+  --font-size-xl: #{$font-size-xl};
+  --font-size-2xl: #{$font-size-2xl};
+}
+
 *{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   color: $white;
   font-family: 'Roboto', sans-serif;
+  font-size: $font-size-base;
 }
 
 body {
@@ -18,14 +37,14 @@ body {
 }
 
 h1{
-  font-size: 2rem;
+  font-size: $font-size-2xl;
   font-weight: 700;
   margin: 0;
   padding: 0;
 }
 
 p{
-  font-size: 1.1rem;
+  font-size: $font-size-sm;
   font-weight: 400;
   margin: 0;
   padding: 0;
@@ -34,14 +53,18 @@ p{
 #app {
   display: flex;
 
-  .sidebar {
-    width: 250px;
-    border-right: 1px solid rgba($accent, 1);
-  }
-
   .main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
+
+    .main-pane{
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 20px;
+      background-color: $black;
+      gap: 20px;
+    }
   }
 }

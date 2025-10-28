@@ -1,18 +1,20 @@
-@import '../global.scss';
+@use '../global.scss' as global;
 
 .navbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
+  height: 80px;
 
-  background-color: $black;
-  border-bottom: 1px solid $accent;
+  background-color: rgba(global.$white, 0.05);
+  border-bottom: 1px solid rgba(global.$white, 0.1);
 
   padding: 10px 20px;
 
 
   &__current-route{
-    font-size: 1.25rem;
+    font-size: global.$font-size-lg;
     font-weight: 600;
   }
 
@@ -29,11 +31,12 @@
 
     a{
       text-decoration: none;
-      color: $white;
+      color: global.$white;
       font-weight: 500;
+      font-size: global.$font-size-sm;
 
       &:hover{
-        color: $accent;
+        color: global.$accent;
       }
     }
   }
