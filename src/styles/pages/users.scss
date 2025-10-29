@@ -8,17 +8,6 @@
     gap: 20px;
   }
 
-  .table-container{
-    flex: 1;
-    background-color: rgba(global.$white, 0.04);
-    border: 1px solid rgba(global.$white, 0.1);
-    border-radius: 12px;
-    overflow: auto;
-    padding: 0;
-    min-height: 0;
-    box-shadow: 0 20px 40px rgba(global.$black, 0.15);
-  }
-
   .mono{
     font-family: 'DM Mono', monospace;
     font-size: global.$font-size-sm;
