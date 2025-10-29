@@ -1,22 +1,26 @@
 import type { LucideIcon } from 'lucide-react'
 import '../../styles/components/cards/dashboardCard.scss'
 import { colors } from '../../helpers/colors'
+import { useNavigate } from 'react-router'
 
 interface DashboardCardProps {
   icon: LucideIcon
   title: string
   value: string | number
-  button?: boolean
+  route?: string
   small?: boolean
+  button?: boolean
 }
 
-export const DashboardCard = ({ icon, title, value, button, small }: DashboardCardProps) => {
+export const DashboardCard = ({ icon, title, value, route, small, button }: DashboardCardProps) => {
 
   const Icon = icon
+  const navigate = useNavigate()
 
   const handleClick = () => {
-    if(!button) return;
-    
+    if(!route) return;
+    navigate(route)
+
     console.log(`${title} card clicked`)
   }
 

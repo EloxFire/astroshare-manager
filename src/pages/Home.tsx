@@ -16,20 +16,6 @@ const Home = () => {
         <DashboardCard icon={Users} title="Changelogs" value="8" />
         <DashboardCard icon={Users} title="Events" value="8" />
       </div>
-      {/* <section className="column">
-        <p className="column-title">Ajouter une actualité</p>
-        <AddNewsBanner />
-        <hr />
-        <p className="column-title">Liste des actualités</p>
-        <NewsBannerHandler />
-      </section>
-      <section className="column">
-        <p className="column-title">Ajouter un changelog</p>
-        <AddChangelog />
-      </section>
-      <section className="column">
-        <p className="column-title">Ajouter une ressource</p>
-      </section> */}
     </main>
   );
 };

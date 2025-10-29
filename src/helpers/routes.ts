@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Database, FileText, House, Users } from "lucide-react";
+import { Database, FileText, House, Newspaper, PenBoxIcon, Users } from "lucide-react";
 
 type RouteConfig = {
   path: string;
@@ -39,7 +39,14 @@ export const routes: Record<string, RouteConfig> = {
     path: "/news-banners",
     label: "Bannières d'actualités",
     color: "#ff6900",
-    Icon: Database,
+    Icon: Newspaper,
+    parent: "contents"
+  },
+  resources: {
+    path: "/resources",
+    label: "Ressources",
+    color: "#ff6900",
+    Icon: PenBoxIcon,
     parent: "contents"
   }
 };

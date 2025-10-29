@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router'
 import { type CSSProperties, useMemo } from 'react'
 import { routes } from '../helpers/routes'
 import '../styles/components/sidebar.scss'
+import { colors } from '../helpers/colors'
 
 export const Sidebar = () => {
   const navigate = useNavigate()
@@ -54,18 +55,18 @@ export const Sidebar = () => {
         {groupedRoutes.map(({ key, route, children }) => {
           const Icon = route.Icon
           const isActive = isPathActive(route.path) || children.some(([, childRoute]) => isPathActive(childRoute.path))
-          const parentStyle = { '--item-color': route.color } as CSSProperties
+          const parentStyle = { '--item-color': colors.accent } as CSSProperties
 
           return (
             <div className="sidebar-group" key={key}>
               <button
                 className={`sidebar-item sidebar-item--parent ${isActive ? 'active' : ''}`}
-                data-color={route.color}
+                data-color={colors.accent}
                 aria-current={isActive ? 'page' : undefined}
                 onClick={() => navigate(route.path)}
                 style={parentStyle}
               >
-                <Icon className='sidebar-icon' aria-hidden size={20} color={isActive ? route.color : "#FFFFFF"} />
+                <Icon className='sidebar-icon' aria-hidden size={20} color={isActive ? colors.accent : "#FFFFFF"} />
                 {route.label}
               </button>
 
@@ -74,18 +75,18 @@ export const Sidebar = () => {
                   {children.map(([childKey, childRoute]) => {
                     const ChildIcon = childRoute.Icon
                     const isChildActive = isPathActive(childRoute.path)
-                    const childStyle = { '--item-color': childRoute.color } as CSSProperties
+                    const childStyle = { '--item-color': colors.accent } as CSSProperties
 
                     return (
                       <button
                         key={childKey}
                         className={`sidebar-item sidebar-item--child ${isChildActive ? 'active' : ''}`}
-                        data-color={childRoute.color}
+                        data-color={colors.accent}
                         aria-current={isChildActive ? 'page' : undefined}
                         onClick={() => navigate(childRoute.path)}
                         style={childStyle}
                       >
-                        <ChildIcon className='sidebar-icon' aria-hidden size={16} color={isChildActive ? childRoute.color : "#FFFFFF"} />
+                        <ChildIcon className='sidebar-icon' aria-hidden size={16} color={isChildActive ? colors.accent : "#FFFFFF"} />
                         {childRoute.label}
                       </button>
                     )

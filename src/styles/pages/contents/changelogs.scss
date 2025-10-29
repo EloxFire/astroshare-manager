@@ -1,0 +1,33 @@
+@use '../../global.scss' as global;
+
+.changelogs-page {
+  display: flex;
+  flex-direction: row !important;
+  gap: 20px;
+
+  .list-pane, .form-pane{
+    h1{
+      margin-bottom: 15px;
+    }
+  }
+
+  .list-pane{
+    width: 60%
+  }
+
+  .form-pane{
+    width: 40%
+  }
+
+  .table-container{
+    flex: 1;
+    background-color: rgba(global.$white, 0.04);
+    border: 1px solid rgba(global.$white, 0.1);
+    border-radius: 12px;
+    overflow: auto;
+    padding: 0;
+    min-height: 0;
+    box-shadow: 0 20px 40px rgba(global.$black, 0.15);
+    margin-top: 15px;
+  }
+}

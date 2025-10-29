@@ -7,6 +7,8 @@ import { Contents } from "./pages/Contents.tsx";
 import { UsersPage } from "./pages/Users.tsx";
 
 import './styles/global.scss';
+import { Changelogs } from "./pages/contents/Changelogs.tsx";
+import { AppNewsPage } from "./pages/contents/AppNews.tsx";
 
 
 function App() {
@@ -23,6 +25,10 @@ function App() {
             <Route index path={routes.home.path} element={<Home />}/>
             <Route index path={routes.contents.path} element={<Contents />}/>
             <Route index path={routes.users.path} element={<UsersPage />}/>
+
+            {/* Contents routes */}
+            <Route path={routes.changelogs.path} element={<Changelogs />} />
+            <Route path={routes.newsBanners.path} element={<AppNewsPage />} />
           </Routes>
         </main>
       </BrowserRouter>
