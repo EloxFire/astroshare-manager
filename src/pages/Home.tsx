@@ -10,6 +10,11 @@ const Home = () => {
   const [, setLoading] = useState(true);
   const { accessToken, status } = useAuth();
 
+  const [resourcesCount, setResourcesCount] = useState<number | null>(null);
+  const [usersCount, setUsersCount] = useState<number | null>(null);
+  const [changelogsCount, setChangelogsCount] = useState<number | null>(null);
+  const [eventsCount, setEventsCount] = useState<number | null>(null);
+
   useEffect(() => {
     let isMounted = true;
 
@@ -23,9 +28,17 @@ const Home = () => {
 
       try {
         const resourcesData = await fetchJsonWithAuth('/stats/count/resources', accessToken);
+        const usersData = await fetchJsonWithAuth('/stats/count/users', accessToken);
+        const changelogsData = await fetchJsonWithAuth('/stats/count/changelogs', accessToken);
+        const eventsData = await fetchJsonWithAuth('/stats/count/trackingEvents', accessToken);
 
         if (!isMounted) return;
-        console.log(resourcesData);
+        console.log({ resourcesData, usersData, changelogsData, eventsData });
+        
+        setResourcesCount(resourcesData.totalResources);
+        setUsersCount(usersData.userCount);
+        setChangelogsCount(changelogsData.totalChangelogs);
+        setEventsCount(eventsData.totalEvents);
       } catch (error) {
         if (!isMounted) return;
         console.error('[HomePage] Impossible de récupérer les statistiques', error);
@@ -50,10 +63,10 @@ const Home = () => {
       </div>
 
       <div className='cards-container'>
-        <DashboardCard small icon={Users} title="Ressources" value="6" />
-        <DashboardCard small icon={Users} title="Inscrits" value="12" />
-        <DashboardCard small icon={Users} title="Changelogs" value="8" />
-        <DashboardCard small icon={Users} title="Events" value="8" />
+        <DashboardCard small icon={Users} title="Ressources" value={resourcesCount} />
+        <DashboardCard small icon={Users} title="Inscrits" value={usersCount} />
+        <DashboardCard small icon={Users} title="Changelogs" value={changelogsCount} />
+        <DashboardCard small icon={Users} title="Events" value={eventsCount} />
       </div>
     </main>
   );
