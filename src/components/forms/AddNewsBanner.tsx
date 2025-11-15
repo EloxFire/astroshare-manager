@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { NewsBanner } from '../cards/NewsBanner';
 import '../../styles/components/forms/addNewsBannerForm.scss';
+import { useAuth } from '../../context/AuthContext';
+import { fetchJsonWithAuth } from '../../helpers/api';
 
 const AddNewsBanner = () => {
 
@@ -8,11 +10,48 @@ const AddNewsBanner = () => {
   const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [linkType, setLinkType] = useState('internal');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { accessToken, status } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const isAuthenticated = status === 'authenticated' && Boolean(accessToken);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log({ title, content, imageUrl, linkType });
+
+    if (!isAuthenticated || !accessToken) {
+      console.warn('[AddNewsBanner] Tentative de soumission sans session valide.');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      await fetchJsonWithAuth('/news', accessToken, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title,
+          description: content,
+          icon: imageUrl,
+          type: linkType,
+          externalLink: linkType === 'external' ? '' : undefined,
+          internalRoute: linkType === 'internal' ? '' : undefined,
+          visible: true,
+          order: 0,
+        })
+      });
+
+      setTitle('');
+      setContent('');
+      setImageUrl('');
+      setLinkType('internal');
+    } catch (error) {
+      console.error('Error adding news banner:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -41,7 +80,12 @@ const AddNewsBanner = () => {
           <option value="internal">Internal link</option>
           <option value="external">External link</option>
         </select>
-        <button type="submit">Ajouter</button>
+        <button type="submit" disabled={!isAuthenticated || isSubmitting}>
+          {isSubmitting ? 'Ajout en cours…' : 'Ajouter'}
+        </button>
+        {!isAuthenticated ? (
+          <p className="form-hint">Connectez-vous pour ajouter une actualité.</p>
+        ) : null}
       </form>
       <div className="news-banner-add-preview">
         <p>Prévisualisation :</p>

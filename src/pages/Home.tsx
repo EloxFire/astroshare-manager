@@ -2,21 +2,45 @@ import { DashboardCard } from '../components/cards/DashboardCard';
 import { Users } from 'lucide-react';
 import '../styles/pages/home.scss';
 import { useEffect, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { fetchJsonWithAuth } from '../helpers/api';
 
 const Home = () => {
 
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
+  const { accessToken, status } = useAuth();
 
   useEffect(() => {
-    (async () => {
-      const BASE_URL = 'http://dev-api.astroshare.fr/stats';
+    let isMounted = true;
 
-      const resources = await fetch(`${BASE_URL}/count/resources`);
-      const resourcesData = await resources.json();
-      console.log(resourcesData);
-      setLoading(false);
-    })()
-  }, []);
+    const loadStats = async () => {
+      if (status !== 'authenticated' || !accessToken) {
+        if (status !== 'checking' && isMounted) {
+          setLoading(false);
+        }
+        return;
+      }
+
+      try {
+        const resourcesData = await fetchJsonWithAuth('/stats/count/resources', accessToken);
+
+        if (!isMounted) return;
+        console.log(resourcesData);
+      } catch (error) {
+        if (!isMounted) return;
+        console.error('[HomePage] Impossible de récupérer les statistiques', error);
+      } finally {
+        if (!isMounted) return;
+        setLoading(false);
+      }
+    };
+
+    loadStats();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [accessToken, status]);
 
   return (
     <main className="main-pane home">

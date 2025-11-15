@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '../../global.scss' as global;
 
 .news-banner-add{
@@ -74,10 +75,21 @@
       font-weight: 600;
       font-size: global.$font-size-sm;
       cursor: pointer;
-  
+
       &:hover{
-        background-color: darken(global.$accent, 10%);
+        background-color: color.adjust(global.$accent, $lightness: -10%);
       }
+
+      &:disabled{
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+    }
+
+    .form-hint{
+      margin-top: 6px;
+      font-size: global.$font-size-xs;
+      color: rgba(global.$white, 0.6);
     }
   }
 

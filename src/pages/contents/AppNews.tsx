@@ -6,10 +6,13 @@ import AddNewsBanner from "../../components/forms/AddNewsBanner"
 
 import "../../styles/pages/contents/app-news.scss"
 import type { AppNews } from "../../helpers/types/AppNews"
+import { useAuth } from "../../context/AuthContext"
+import { fetchJsonWithAuth } from "../../helpers/api"
 
 export const AppNewsPage = () => {
   const [news, setNews] = useState<AppNews[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const { accessToken, status } = useAuth()
 
   const dateFormatter = useMemo(() => new Intl.DateTimeFormat("fr-FR", {
     day: "2-digit",
@@ -57,27 +60,37 @@ export const AppNewsPage = () => {
   useEffect(() => {
     let isMounted = true
 
-    setIsLoading(true)
+    const loadNews = async () => {
+      if (status !== "authenticated" || !accessToken) {
+        if (status !== "checking") {
+          setNews([])
+          setIsLoading(false)
+        }
+        return
+      }
 
-    ;(async () => {
+      setIsLoading(true)
+
       try {
-        const response = await fetch("https://dev-api.astroshare.fr/news")
-        const json = await response.json()
+        const json = await fetchJsonWithAuth<{ data?: AppNews[] }>("/news", accessToken)
 
         if (!isMounted) return
-        setNews(json.data)
+        setNews(json.data ?? [])
       } catch (error) {
+        if (!isMounted) return
         console.error("[AppNewsPage] Impossible de récupérer les actualités", error)
       } finally {
         if (!isMounted) return
         setIsLoading(false)
       }
-    })()
+    }
+
+    loadNews()
 
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [accessToken, status])
 
   return (
     <div className="main-pane app-news-page">

@@ -3,7 +3,7 @@ import '../../styles/components/cards/newsBanner.scss';
 
 interface NewsBannerProps extends AppNews {}
 
-export const NewsBanner = ({ title, description, icon, colors, type, externalLink, internalRoute, visible, order, createdAt }: NewsBannerProps) => {
+export const NewsBanner = ({ title, description, icon }: NewsBannerProps) => {
   return (
     <div className="news-banner-preview">
       <img className='news-banner-image' src={icon} alt={title} />

@@ -6,10 +6,13 @@ import AddChangelog from "../../components/forms/AddChangelog"
 
 import '../../styles/pages/contents/changelogs.scss'
 import type { Changelog } from "../../helpers/types/Changelog"
+import { useAuth } from "../../context/AuthContext"
+import { fetchJsonWithAuth } from "../../helpers/api"
 
 export const Changelogs = () => {
   const [logs, setLogs] = useState<Changelog[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const { accessToken, status } = useAuth()
 
   const dateFormatter = useMemo(() => new Intl.DateTimeFormat('fr-FR', {
     day: '2-digit',
@@ -50,25 +53,37 @@ export const Changelogs = () => {
   useEffect(() => {
     let isMounted = true;
 
-    (async () => {
+    const loadChangelogs = async () => {
+      if (status !== 'authenticated' || !accessToken) {
+        if (status !== 'checking') {
+          setLogs([])
+          setIsLoading(false)
+        }
+        return
+      }
+
+      setIsLoading(true)
+
       try {
-        const data = await fetch('https://dev-api.astroshare.fr/changelog/app')
-        const json = await data.json()
+        const json = await fetchJsonWithAuth<{ data?: Changelog[] }>('/changelog/app', accessToken)
 
         if (!isMounted) return
-        setLogs(json.data)
+        setLogs(json.data ?? [])
       } catch (error) {
+        if (!isMounted) return
         console.error('[ChangelogsPage] Impossible de récupérer les changelogs', error)
       } finally {
         if (!isMounted) return
         setIsLoading(false)
       }
-    })()
+    }
+
+    loadChangelogs()
 
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [accessToken, status])
 
   return (
     <div className="main-pane changelogs-page">
