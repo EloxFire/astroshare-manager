@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { NewsBanner } from '../cards/NewsBanner';
 import '../../styles/components/forms/addNewsBannerForm.scss';
 import { useAuth } from '../../context/AuthContext';
-import { fetchJsonWithAuth } from '../../helpers/api';
 
 const AddNewsBanner = () => {
 
@@ -25,11 +24,11 @@ const AddNewsBanner = () => {
 
     try {
       setIsSubmitting(true);
-
-      await fetchJsonWithAuth('/news', accessToken, {
+      await fetch('/news', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           title,

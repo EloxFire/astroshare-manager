@@ -1,29 +1,17 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext.tsx';
 import { routes } from '../helpers/routes.ts';
 import '../styles/pages/login.scss';
 
 export const LoginPage = () => {
-  const { status, login } = useAuth();
+  const { loginUser } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  if (status === 'checking') {
-    return (
-      <div className="auth-loader">
-        <p>Initialisation de la session...</p>
-      </div>
-    );
-  }
-
-  if (status === 'authenticated') {
-    return <Navigate to={routes.home.path} replace />;
-  }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,7 +22,7 @@ export const LoginPage = () => {
     setIsSubmitting(true);
 
     try {
-      await login(email, password);
+      await loginUser(email, password);
       navigate(routes.home.path, { replace: true });
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Connexion impossible. Réessayez.';

@@ -22,18 +22,12 @@ const AppLayout = () => (
 );
 
 const RequireAuth = () => {
-  const { status, user } = useAuth();
-  const isAdmin = Boolean(user && user.role === UserRoles.ADMIN);
+  const { currentUser } = useAuth();
+  const isAdmin = Boolean(currentUser && currentUser.role === UserRoles.ADMIN);
 
-  if (status === 'checking') {
-    return (
-      <div className="auth-loader">
-        <p>Initialisation de la session...</p>
-      </div>
-    );
-  }
+  console.log('[RequireAuth] currentUser:', currentUser);
 
-  if (status !== 'authenticated' || !isAdmin) {
+  if (!currentUser || !isAdmin) {
     return <Navigate to="/login" replace />;
   }
 

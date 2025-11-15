@@ -2,17 +2,13 @@ import { useEffect, useMemo, useState } from "react"
 import { FileText } from "lucide-react"
 import { DashboardCard } from "../../components/cards/DashboardCard"
 import { DataTable, type DataTableColumn } from "../../components/table/DataTable"
-import AddChangelog from "../../components/forms/AddChangelog"
-
-import '../../styles/pages/contents/changelogs.scss'
 import type { Changelog } from "../../helpers/types/Changelog"
-import { useAuth } from "../../context/AuthContext"
-import { fetchJsonWithAuth } from "../../helpers/api"
+import AddChangelog from "../../components/forms/AddChangelog"
+import '../../styles/pages/contents/changelogs.scss'
 
 export const Changelogs = () => {
   const [logs, setLogs] = useState<Changelog[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const { accessToken, status } = useAuth()
 
   const dateFormatter = useMemo(() => new Intl.DateTimeFormat('fr-FR', {
     day: '2-digit',
@@ -49,41 +45,6 @@ export const Changelogs = () => {
       align: 'right'
     }
   ], [dateFormatter])
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const loadChangelogs = async () => {
-      if (status !== 'authenticated' || !accessToken) {
-        if (status !== 'checking') {
-          setLogs([])
-          setIsLoading(false)
-        }
-        return
-      }
-
-      setIsLoading(true)
-
-      try {
-        const json = await fetchJsonWithAuth<{ data?: Changelog[] }>('/changelog/app', accessToken)
-
-        if (!isMounted) return
-        setLogs(json.data ?? [])
-      } catch (error) {
-        if (!isMounted) return
-        console.error('[ChangelogsPage] Impossible de récupérer les changelogs', error)
-      } finally {
-        if (!isMounted) return
-        setIsLoading(false)
-      }
-    }
-
-    loadChangelogs()
-
-    return () => {
-      isMounted = false
-    }
-  }, [accessToken, status])
 
   return (
     <div className="main-pane changelogs-page">

@@ -1,18 +1,14 @@
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { Eye, Newspaper } from "lucide-react"
 import { DashboardCard } from "../../components/cards/DashboardCard"
 import { DataTable, type DataTableColumn } from "../../components/table/DataTable"
-import AddNewsBanner from "../../components/forms/AddNewsBanner"
-
-import "../../styles/pages/contents/app-news.scss"
 import type { AppNews } from "../../helpers/types/AppNews"
-import { useAuth } from "../../context/AuthContext"
-import { fetchJsonWithAuth } from "../../helpers/api"
+import AddNewsBanner from "../../components/forms/AddNewsBanner"
+import "../../styles/pages/contents/app-news.scss"
 
 export const AppNewsPage = () => {
   const [news, setNews] = useState<AppNews[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const { accessToken, status } = useAuth()
 
   const dateFormatter = useMemo(() => new Intl.DateTimeFormat("fr-FR", {
     day: "2-digit",
@@ -56,41 +52,6 @@ export const AppNewsPage = () => {
       align: "right"
     },
   ], [dateFormatter])
-
-  useEffect(() => {
-    let isMounted = true
-
-    const loadNews = async () => {
-      if (status !== "authenticated" || !accessToken) {
-        if (status !== "checking") {
-          setNews([])
-          setIsLoading(false)
-        }
-        return
-      }
-
-      setIsLoading(true)
-
-      try {
-        const json = await fetchJsonWithAuth<{ data?: AppNews[] }>("/news", accessToken)
-
-        if (!isMounted) return
-        setNews(json.data ?? [])
-      } catch (error) {
-        if (!isMounted) return
-        console.error("[AppNewsPage] Impossible de récupérer les actualités", error)
-      } finally {
-        if (!isMounted) return
-        setIsLoading(false)
-      }
-    }
-
-    loadNews()
-
-    return () => {
-      isMounted = false
-    }
-  }, [accessToken, status])
 
   return (
     <div className="main-pane app-news-page">
