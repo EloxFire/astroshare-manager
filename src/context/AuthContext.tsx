@@ -1,7 +1,7 @@
 import {
   createContext,
-  useCallback,
   useContext,
+  useEffect,
   useState,
   type ReactNode,
 } from 'react';
@@ -12,13 +12,13 @@ const AuthContext = createContext<any>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isAuthReady, setIsAuthReady] = useState(false);
 
   const logoutUser = () => {
     setCurrentUser(null);
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
-    // Redirect to login page
-    window.location.href = '/login';
+    setIsAuthReady(true);
   };
 
   const refreshToken = async () => {
@@ -44,6 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setCurrentUser(data.user);
     localStorage.setItem('accessToken', data.accessToken);
     localStorage.setItem('refreshToken', data.refreshToken);
+    setIsAuthReady(true);
     return data;
   }
 
@@ -68,11 +69,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return data;
   }
 
+  useEffect(() => {
+    const initializeAuth = async () => {
+      console.log('Checking authentication state...');
+      
+      const at = localStorage.getItem('accessToken');
+      const rt = localStorage.getItem('refreshToken');
+
+      if (!at || !rt) {
+        setCurrentUser(null);
+        setIsAuthReady(true);
+        return;
+      }
+
+      try {
+        await refreshToken();
+        console.log('Token refreshed successfully');
+      } catch (error) {
+        console.error('Error refreshing token on init:', error);
+        logoutUser();
+      } finally {
+        setIsAuthReady(true);
+      }
+    };
+
+    initializeAuth();
+  }, []);
+
   const value = {
     currentUser,
     loginUser,
     logoutUser,
     refreshToken,
+    isAuthReady,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

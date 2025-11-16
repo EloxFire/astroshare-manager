@@ -22,10 +22,14 @@ const AppLayout = () => (
 );
 
 const RequireAuth = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, isAuthReady } = useAuth();
   const isAdmin = Boolean(currentUser && currentUser.role === UserRoles.ADMIN);
 
   console.log('[RequireAuth] currentUser:', currentUser);
+
+  if (!isAuthReady) {
+    return null;
+  }
 
   if (!currentUser || !isAdmin) {
     return <Navigate to="/login" replace />;

@@ -46,6 +46,29 @@ export const Changelogs = () => {
     }
   ], [dateFormatter])
 
+  useEffect(() => {
+    const fetchChangelogs = async () => {
+      setIsLoading(true)
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/changelog/app`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        if (!response.ok) throw new Error('Failed to fetch changelogs')
+        const data = await response.json()
+        setLogs(data.data)
+      } catch (error) {
+        console.error('Error fetching changelogs:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchChangelogs()
+  }, [])
+
   return (
     <div className="main-pane changelogs-page">
       <div className="list-pane">
