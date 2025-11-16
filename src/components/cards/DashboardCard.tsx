@@ -1,18 +1,20 @@
 import type { LucideIcon } from 'lucide-react'
-import '../../styles/components/cards/dashboardCard.scss'
 import { colors } from '../../helpers/colors'
 import { useNavigate } from 'react-router'
+import { Loader } from '../Loader.tsx'
+import '../../styles/components/cards/dashboardCard.scss'
 
 interface DashboardCardProps {
   icon: LucideIcon
   title: string
-  value: string | number
+  value: string | number | undefined
+  loading?: boolean
   route?: string
   small?: boolean
   button?: boolean
 }
 
-export const DashboardCard = ({ icon, title, value, route, small, button }: DashboardCardProps) => {
+export const DashboardCard = ({ icon, title, value, loading = false, route, small, button }: DashboardCardProps) => {
 
   const Icon = icon
   const navigate = useNavigate()
@@ -20,8 +22,6 @@ export const DashboardCard = ({ icon, title, value, route, small, button }: Dash
   const handleClick = () => {
     if(!route) return;
     navigate(route)
-
-    console.log(`${title} card clicked`)
   }
 
   const classNames = [
@@ -49,7 +49,11 @@ export const DashboardCard = ({ icon, title, value, route, small, button }: Dash
       </div>
       <div>
         <h2 className={titleClassNames}>{title}</h2>
-        <p className={valueClassNames}>{value}</p>
+        {loading ? (
+          <Loader size='small' />
+        ) : (
+          <p className={valueClassNames}>{value}</p>
+        )}
       </div>
     </button>
   )

@@ -87,7 +87,7 @@ const AddNewsBanner = () => {
         ) : null}
       </form>
       <div className="news-banner-add-preview">
-        <p>Prévisualisation :</p>
+        <p style={{marginBottom: '10px'}}>Prévisualisation :</p>
         <NewsBanner
           title={title}
           description={content}

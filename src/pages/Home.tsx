@@ -8,15 +8,42 @@ const Home = () => {
   const { currentUser } = useAuth();
   
   const [loading, setLoading] = useState(true);
-  const [resourcesCount, setResourcesCount] = useState<number | null>(null);
-  const [usersCount, setUsersCount] = useState<number | null>(null);
-  const [changelogsCount, setChangelogsCount] = useState<number | null>(null);
-  const [eventsCount, setEventsCount] = useState<number | null>(null);
+  const [resourcesCount, setResourcesCount] = useState<number>(0);
+  const [usersCount, setUsersCount] = useState<number>(0);
+  const [changelogsCount, setChangelogsCount] = useState<number>(0);
+  const [eventsCount, setEventsCount] = useState<number>(0);
 
   useEffect(() => {
     (async () => {
       if (!currentUser) return;
       console.log('Fetching dashboard data...');
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      };
+
+      try {
+        const resources = await fetch(`${import.meta.env.VITE_API_URL}/stats/count/resources`, {headers});
+        const resourcesData = await resources.json();
+        setResourcesCount(resourcesData.count);
+
+        const users = await fetch(`${import.meta.env.VITE_API_URL}/stats/count/users`, {headers});
+        const usersData = await users.json();
+        setUsersCount(usersData.count);
+
+        const changelogs = await fetch(`${import.meta.env.VITE_API_URL}/stats/count/changelogs`, {headers});
+        const changelogsData = await changelogs.json();
+        setChangelogsCount(changelogsData.count);
+
+        const events = await fetch(`${import.meta.env.VITE_API_URL}/stats/count/trackingEvents`, {headers});
+        const eventsData = await events.json();
+        setEventsCount(eventsData.count);
+
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        setLoading(false);
+      }
       
     })()
   }, []);
@@ -29,10 +56,10 @@ const Home = () => {
       </div>
 
       <div className='cards-container'>
-        <DashboardCard small icon={Users} title="Ressources" value={0} />
-        <DashboardCard small icon={Users} title="Inscrits" value={0} />
-        <DashboardCard small icon={Users} title="Changelogs" value={0} />
-        <DashboardCard small icon={Users} title="Events" value={0} />
+        <DashboardCard small icon={Users} title="Ressources" loading={loading} value={resourcesCount} />
+        <DashboardCard small icon={Users} title="Inscrits" loading={loading} value={usersCount} />
+        <DashboardCard small icon={Users} title="Changelogs" loading={loading} value={changelogsCount} />
+        <DashboardCard small icon={Users} title="Events" loading={loading} value={eventsCount} />
       </div>
     </main>
   );

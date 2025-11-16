@@ -1,72 +1,16 @@
 import { Edit, Trash2, Users } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { DataTable, type DataTableColumn, type DataTableRowAction } from '../components/table/DataTable'
-import '../styles/pages/users.scss'
 import { DashboardCard } from '../components/cards/DashboardCard'
-
-type User = {
-  id: string
-  email: string
-  role: string
-  subscriptionType?: string
-  createdAt: string
-}
-
-const mockUsers: User[] = [
-  {
-    id: 'USR-001',
-    email: 'emma.dupont@astroshare.fr',
-    role: 'Administratrice',
-    subscriptionType: 'Premium',
-    createdAt: '2023-11-18T09:32:00Z'
-  },
-  {
-    id: 'USR-002',
-    email: 'lucas.martin@astroshare.fr',
-    role: 'Editeur',
-    subscriptionType: 'Standard',
-    createdAt: '2024-01-04T14:12:00Z'
-  },
-  {
-    id: 'USR-003',
-    email: 'nina.berger@astroshare.fr',
-    role: 'Contributeur',
-    createdAt: '2024-02-22T08:45:00Z'
-  },
-  {
-    id: 'USR-004',
-    email: 'maxime.bernard@astroshare.fr',
-    role: 'Visiteur',
-    subscriptionType: 'Découverte',
-    createdAt: '2023-12-29T17:05:00Z'
-  },
-  {
-    id: 'USR-005',
-    email: 'lea.durand@astroshare.fr',
-    role: 'Contributeur',
-    subscriptionType: 'Premium',
-    createdAt: '2024-03-18T10:28:00Z'
-  }
-]
-
-export const fetchUsersMock = async (delay = 250): Promise<User[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(mockUsers), delay)
-  })
-}
-
-const formatDate = (date: string) => {
-  return new Intl.DateTimeFormat('fr-FR', {
-    dateStyle: 'medium',
-    timeStyle: 'short'
-  }).format(new Date(date))
-}
+import type { User } from '../helpers/types/User'
+import dayjs from 'dayjs'
+import '../styles/pages/users.scss'
 
 const userColumns: DataTableColumn<User>[] = [
   {
     header: 'ID',
-    key: 'id',
-    accessor: (user) => <span className='mono'>{user.id}</span>
+    key: 'uid',
+    accessor: (user) => <span className='mono'>{user.uid.slice(0, 8)}…</span>
   },
   {
     header: 'Email',
@@ -88,7 +32,16 @@ const userColumns: DataTableColumn<User>[] = [
   {
     header: 'Date de création',
     key: 'createdAt',
-    accessor: (user) => formatDate(user.createdAt)
+    accessor: (user) => {
+      // Convert FirebaseTimestamp to JavaScript Date
+      if (user.createdAt && typeof user.createdAt.seconds === 'number') {
+        const date = new Date(user.createdAt.seconds * 1000 + Math.floor(user.createdAt.nanoseconds / 1e6))
+        return dayjs(date).format('DD/MM/YYYY HH:mm')
+      } else {
+        console.warn(`[UsersPage] Invalid createdAt timestamp for user ${user.uid}`)
+        return <span className='muted'>Date invalide</span>
+      }
+    }
   }
 ]
 
@@ -101,29 +54,31 @@ export const UsersPage = () => {
       label: 'Modifier',
       icon: Edit,
       variant: 'ghost',
-      onClick: (user) => console.log(`[UsersPage] Modifier ${user.id}`)
+      onClick: (user) => console.log(`[UsersPage] Modifier ${user.uid}`)
     },
     {
       label: 'Supprimer',
       icon: Trash2,
       variant: 'danger',
-      onClick: (user) => console.log(`[UsersPage] Supprimer ${user.id}`)
+      onClick: (user) => console.log(`[UsersPage] Supprimer ${user.uid}`)
     }
   ], [])
 
   useEffect(() => {
-    let isMounted = true
-
-    fetchUsersMock().then((data) => {
-      if (!isMounted) return
-
+    const fetchUsers = async () => {
+      setIsLoading(true)
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/users`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      })
+      const data: User[] = await response.json()
       setUsers(data)
       setIsLoading(false)
-    })
-
-    return () => {
-      isMounted = false
     }
+
+    fetchUsers()
   }, [])
 
   return (
@@ -140,11 +95,11 @@ export const UsersPage = () => {
         <DataTable
           data={users}
           columns={userColumns}
-          getRowId={(user) => user.id}
+          getRowId={(user) => user.uid}
           isLoading={isLoading}
           loadingLabel="Chargement des utilisateurs…"
           emptyLabel="Aucun utilisateur enregistré pour le moment."
-          rowActions={userRowActions}
+          // rowActions={userRowActions}
         />
       </div>
     </main>

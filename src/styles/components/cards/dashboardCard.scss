@@ -45,6 +45,7 @@
     font-family: 'DM Mono', monospace;
     font-weight: 700;
     text-align: left;
+    min-height: 1.5em; // ensures layout is stable when loader swaps value
 
     &.button{
       font-size: global.$font-size-base;

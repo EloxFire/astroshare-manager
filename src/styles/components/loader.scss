@@ -1,0 +1,39 @@
+@use '../global.scss' as global;
+
+.loader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &__indicator {
+    border: 2px solid rgba(global.$white, 0.3);
+    border-top-color: global.$accent;
+    border-radius: 50%;
+    animation: loader-spin 0.75s linear infinite;
+    display: inline-block;
+  }
+
+  &--small {
+    .loader__indicator {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &--large {
+    .loader__indicator {
+      width: 28px;
+      height: 28px;
+    }
+  }
+}
+
+@keyframes loader-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,3 +1,5 @@
+import type { FirebaseTimestamp } from "./FirebaseTimestamp";
+
 export const UserRoles = {
   ADMIN: 'admin',
   MEMBER: 'member',
@@ -29,6 +31,6 @@ export type User = {
   username?: string;
   birthdate?: Date;
   ref?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: FirebaseTimestamp;
+  updatedAt?: FirebaseTimestamp;
 };

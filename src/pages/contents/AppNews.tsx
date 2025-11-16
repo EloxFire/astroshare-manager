@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Eye, Newspaper } from "lucide-react"
 import { DashboardCard } from "../../components/cards/DashboardCard"
 import { DataTable, type DataTableColumn } from "../../components/table/DataTable"
@@ -52,6 +52,23 @@ export const AppNewsPage = () => {
       align: "right"
     },
   ], [dateFormatter])
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/news`);
+        const data = await response.json();
+        setNews(data.data);
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, [])
 
   return (
     <div className="main-pane app-news-page">
