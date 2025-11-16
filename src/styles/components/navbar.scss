@@ -12,6 +12,69 @@
 
   padding: 10px 20px;
 
+  &__left-section,
+  &__right-section{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  &__user-icon{
+    position: relative;
+    background-color: global.$accent;
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: global.$black;
+    font-size: global.$font-size-md;
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover{
+      background-color: darken(global.$accent, 20%);
+    }
+    
+    &__user-menu{
+      position: absolute;
+      top: 35px;
+      right: 0px;
+      background-color: global.$black;
+      border: 1px solid rgba(global.$white, 0.2);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+  
+    }
+    
+    &__user-email{
+      color: global.$white;
+      font-size: global.$font-size-sm;
+      text-transform: none;
+    }
+
+    &__logout-button{
+      background-color: global.$accent;
+      color: global.$black;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+
+      &:hover{
+        background-color: darken(global.$accent, 10%);
+      }
+    }
+  }
+
+
 
   &__current-route{
     font-size: global.$font-size-lg;

@@ -13,9 +13,13 @@ const AuthContext = createContext<any>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  const logoutUser = useCallback(() => {
+  const logoutUser = () => {
     setCurrentUser(null);
-  }, []);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    // Redirect to login page
+    window.location.href = '/login';
+  };
 
   const refreshToken = async () => {
     const refreshToken = await localStorage.getItem('refreshToken');
