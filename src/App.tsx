@@ -10,6 +10,7 @@ import { AppNewsPage } from './pages/contents/AppNews.tsx';
 import { LoginPage } from './pages/Login.tsx';
 import { useAuth } from './context/AuthContext.tsx';
 import { UserRoles } from './helpers/types/User.ts';
+import { ResourcesPage } from './pages/contents/Resources.tsx';
 
 const AppLayout = () => (
   <div id="app">
@@ -51,6 +52,7 @@ function App() {
             <Route path={routes.users.path} element={<UsersPage />} />
             <Route path={routes.changelogs.path} element={<Changelogs />} />
             <Route path={routes.newsBanners.path} element={<AppNewsPage />} />
+            <Route path={routes.resources.path} element={<ResourcesPage />} />
           </Route>
         </Route>
 

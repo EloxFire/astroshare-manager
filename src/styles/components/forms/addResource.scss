@@ -1,0 +1,140 @@
+@use 'sass:color';
+@use '../../global.scss' as global;
+
+.resource-add{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .resource-add-form{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    background-color: rgba(global.$white, 0.05);
+    border: 1px solid rgba(global.$white, 0.05);
+    border-radius: 10px;
+    padding: 15px;
+    width: 100%;
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(global.$white, 0.85);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(global.$white, 0.15);
+      background: transparent;
+      color: global.$white;
+      font-family: inherit;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-self: flex-start;
+      width: fit-content;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(global.$white, 0.15);
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+    }
+
+    .tags-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      label {
+        font-weight: 600;
+      }
+
+      .tags-input {
+        display: flex;
+        gap: 8px;
+
+        input {
+          flex: 1;
+        }
+
+        button {
+          padding: 8px 12px;
+          border-radius: 6px;
+          border: none;
+          background-color: global.$accent;
+          color: global.$black;
+          cursor: pointer;
+          font-weight: 600;
+        }
+      }
+
+      .tags-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        .tag-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 4px 8px;
+          border-radius: 999px;
+          background: rgba(global.$white, 0.1);
+          font-size: 12px;
+
+          .remove-tag {
+            background: transparent;
+            border: none;
+            color: global.$white;
+            cursor: pointer;
+            font-size: 14px;
+          }
+        }
+
+        .tags-placeholder {
+          color: rgba(global.$white, 0.6);
+          font-style: italic;
+        }
+      }
+    }
+
+    .submit-button {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: global.$accent;
+      color: global.$black;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: color.adjust(global.$accent, $lightness: -5%);
+      }
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}

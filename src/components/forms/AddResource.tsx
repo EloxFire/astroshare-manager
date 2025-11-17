@@ -1,0 +1,193 @@
+import { useState } from 'react';
+import MDEditor from '@uiw/react-md-editor/nohighlight';
+import type { Resource } from '../../helpers/types/Resource';
+import '../../styles/components/forms/addResource.scss';
+
+export const AddResource = () => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [visible, setVisible] = useState(true);
+  const [level, setLevel] = useState<number | ''>('');
+  const [value, setValue] = useState("## Contenu de votre ressource\n\nVous pouvez utiliser le markdown pour formater le contenu de votre ressource.");
+  const [downloadLink, setDownloadLink] = useState('');
+  const [fileType, setFileType] = useState('');
+  const [category, setCategory] = useState('');
+  const [subcategory, setSubcategory] = useState('');
+  const [tagInput, setTagInput] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+
+  const handleAddTag = () => {
+    const nextTag = tagInput.trim();
+    if (!nextTag || tags.includes(nextTag)) return;
+    setTags((prev) => [...prev, nextTag]);
+    setTagInput('');
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const payload: Partial<Resource> = {
+      title: title.trim(),
+      description: description.trim(),
+      visible,
+      level: typeof level === 'number' ? level : undefined,
+      downloadLink: downloadLink.trim(),
+      fileType: fileType.trim(),
+      category: category.trim(),
+      subcategory: subcategory.trim() || undefined,
+      tags,
+    };
+    console.log('[AddResource] Payload à envoyer :', payload, 'Contenu markdown :', value);
+  };
+
+  return (
+    <div className="resource-add">
+      <form className="resource-add-form" onSubmit={handleSubmit}>
+        <div className="form-field full-width">
+          <label htmlFor="resource-title">Titre</label>
+          <input
+            type="text"
+            id="resource-title"
+            placeholder="Entrez le titre de la ressource"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+            required
+          />
+        </div>
+        <div className="form-field full-width">
+          <label htmlFor="resource-description">Description</label>
+          <textarea
+            id="resource-description"
+            placeholder="Entrez la description de la ressource"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+            required
+            rows={3}
+          />
+        </div>
+        <div className="form-field full-width">
+          <label htmlFor="resource-download-link">Lien de téléchargement</label>
+          <input
+            type="url"
+            id="resource-download-link"
+            placeholder="https://…"
+            value={downloadLink}
+            onChange={(event) => setDownloadLink(event.target.value)}
+            required
+          />
+        </div>
+        <div className="form-field">
+          <label htmlFor="resource-file-type">Type de fichier</label>
+          <input
+            type="text"
+            id="resource-file-type"
+            placeholder="PDF, ZIP, etc."
+            value={fileType}
+            onChange={(event) => setFileType(event.target.value)}
+            required
+          />
+        </div>
+        <div className="form-field">
+          <label htmlFor="resource-level">Niveau</label>
+          <input
+            type="number"
+            name="resource-level"
+            id="resource-level"
+            min="1"
+            max="5"
+            step="0.5"
+            placeholder="1 à 5"
+            value={level}
+            onChange={(event) => {
+              const nextValue = event.target.value;
+              setLevel(nextValue === '' ? '' : Number(nextValue));
+            }}
+          />
+        </div>
+        <div className="form-field">
+          <label htmlFor="resource-category">Catégorie</label>
+          <input
+            type="text"
+            id="resource-category"
+            placeholder="Catégorie principale"
+            value={category}
+            onChange={(event) => setCategory(event.target.value)}
+            required
+          />
+        </div>
+        <div className="form-field">
+          <label htmlFor="resource-subcategory">Sous-catégorie</label>
+          <input
+            type="text"
+            id="resource-subcategory"
+            placeholder="(optionnel)"
+            value={subcategory}
+            onChange={(event) => setSubcategory(event.target.value)}
+          />
+        </div>
+        <div className="checkbox-group">
+          <label>
+            <input
+              type="checkbox"
+              checked={visible}
+              onChange={(event) => setVisible(event.target.checked)}
+            />
+            Visible immédiatement
+          </label>
+        </div>
+        <div className="tags-field full-width">
+          <label htmlFor="tag-input">Tags</label>
+          <div className="tags-input">
+            <input
+              id="tag-input"
+              type="text"
+              placeholder="Ajouter un tag"
+              value={tagInput}
+              onChange={(event) => setTagInput(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault();
+                  handleAddTag();
+                }
+              }}
+            />
+            <button type="button" onClick={handleAddTag}>
+              Ajouter
+            </button>
+          </div>
+          <div className="tags-list">
+            {tags.length ? tags.map((tag) => (
+              <span key={tag} className="tag-chip">
+                {tag}
+                <button
+                  type="button"
+                  className="remove-tag"
+                  onClick={() => handleRemoveTag(tag)}
+                  aria-label={`Supprimer le tag ${tag}`}
+                >
+                  ×
+                </button>
+              </span>
+            )) : (
+              <span className="tags-placeholder">Aucun tag ajouté pour le moment.</span>
+            )}
+          </div>
+        </div>
+        <div className="editor-field full-width">
+          <label>Contenu détaillé</label>
+          <MDEditor
+            value={value}
+            onChange={(val) => setValue(val || '')}
+            height={400}
+          />
+        </div>
+        <button type="submit" className="full-width submit-button">Ajouter la ressource</button>
+      </form>
+    </div>
+  );
+};
+
+export default AddResource;

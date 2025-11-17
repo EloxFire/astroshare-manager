@@ -1,0 +1,23 @@
+@use 'sass:color';
+@use '../../global.scss' as global;
+
+.app-resources-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .mode-button {
+    padding: 8px 16px;
+    background-color: global.$accent;
+    color: global.$black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+
+    &:hover {
+      background-color: color.adjust(global.$accent, $lightness: -10%);
+    }
+  }
+}

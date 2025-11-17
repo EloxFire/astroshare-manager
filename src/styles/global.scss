@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 $black: #000000;
@@ -65,6 +66,8 @@ p{
       padding: 20px;
       background-color: $black;
       gap: 20px;
+      overflow: auto;
+      max-height: calc(100vh - 80px);
     }
 
     .cards-container{
@@ -98,5 +101,81 @@ p{
 
   p {
     color: rgba($white, 0.8);
+  }
+}
+
+
+
+// FORMS
+input[type="text"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="password"],
+input[type="number"]{
+  background-color: rgba($white, 0.02);
+  border: 1px solid rgba($white, 0.1);
+  border-radius: 5px;
+  padding: 8px;
+  color: $white;
+
+  &::placeholder{
+    color: rgba($white, 0.5);
+  }
+}
+
+input[type="select"]{
+  background-color: rgba($white, 0.02);
+  border: 1px solid rgba($white, 0.1);
+  border-radius: 5px;
+  padding: 8px;
+  color: $white;
+
+  &::placeholder{
+    color: rgba($white, 0.5);
+  }
+}
+
+textarea{
+  background-color: rgba($white, 0.02);
+  border: 1px solid rgba($white, 0.1);
+  border-radius: 5px;
+  padding: 8px;
+  color: $white;
+
+  &::placeholder{
+    color: rgba($white, 0.5);
+  }
+}
+
+.checkbox-group{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: $font-size-sm;
+    color: rgba($white, 0.85);
+
+    input[type="checkbox"]{
+      accent-color: $accent;
+    }
+  }
+}
+
+button[type="submit"]{
+  background-color: $accent;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  color: $black;
+  font-weight: 600;
+  font-size: $font-size-sm;
+  cursor: pointer;
+
+  &:hover{
+    background-color: color.adjust($accent, $lightness: -10%);
   }
 }
