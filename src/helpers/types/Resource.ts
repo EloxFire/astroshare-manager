@@ -4,6 +4,7 @@ export type Resource = {
   description: string;
   tags: string[];
   downloadLink: string;
+  content: string;
   fileType: string;
   level: number;
   visible: boolean;

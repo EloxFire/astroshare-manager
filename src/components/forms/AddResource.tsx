@@ -1,9 +1,17 @@
 import { useState } from 'react';
-import MDEditor from '@uiw/react-md-editor/nohighlight';
+import { Loader } from '../Loader';
 import type { Resource } from '../../helpers/types/Resource';
+import MDEditor from '@uiw/react-md-editor/nohighlight';
+import dayjs from 'dayjs';
 import '../../styles/components/forms/addResource.scss';
 
-export const AddResource = () => {
+interface AddResourceProps {
+  onResourceAdded: () => void;
+}
+
+export const AddResource = ({onResourceAdded}: AddResourceProps) => {
+
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [visible, setVisible] = useState(true);
@@ -27,19 +35,53 @@ export const AddResource = () => {
     setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+
     event.preventDefault();
+    setLoading(true);
     const payload: Partial<Resource> = {
+      slug: title.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, ''),
       title: title.trim(),
       description: description.trim(),
       visible,
-      level: typeof level === 'number' ? level : undefined,
+      level: typeof level === 'number' ? level : 1,
       downloadLink: downloadLink.trim(),
+      content: value,
       fileType: fileType.trim(),
       category: category.trim(),
       subcategory: subcategory.trim() || undefined,
       tags,
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
     };
+
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/resources`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('accessToken') || ''}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      setTitle('');
+      setDescription('');
+      setVisible(true);
+      setLevel('');
+      setDownloadLink('');
+      setFileType('');
+      setCategory('');
+      setSubcategory('');
+      setTags([]);
+      setValue("## Contenu de votre ressource\n\nVous pouvez utiliser le markdown pour formater le contenu de votre ressource.");
+      setLoading(false);
+
+      onResourceAdded();
+    } catch (error) {
+      console.log('[AddResource] Erreur lors de l\'ajout de la ressource :', error);
+      setLoading(false);
+    }
     console.log('[AddResource] Payload à envoyer :', payload, 'Contenu markdown :', value);
   };
 
@@ -184,7 +226,9 @@ export const AddResource = () => {
             height={400}
           />
         </div>
-        <button type="submit" className="full-width submit-button">Ajouter la ressource</button>
+        <button type="submit" className="full-width submit-button" disabled={loading}>
+          {loading ? <Loader size='small'/> : 'Ajouter la ressource'}
+        </button>
       </form>
     </div>
   );

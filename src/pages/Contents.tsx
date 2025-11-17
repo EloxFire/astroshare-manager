@@ -4,6 +4,7 @@ import '../styles/pages/contents.scss'
 import { routes } from '../helpers/routes'
 
 export const Contents = () => {
+
   return (
     <main className="main-pane contents-page">
       <div>

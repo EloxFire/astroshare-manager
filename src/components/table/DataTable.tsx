@@ -1,37 +1,8 @@
-import type { LucideIcon } from 'lucide-react'
 import { type ReactNode } from 'react'
+import type { DataTableColumn } from '../../helpers/types/table/DataTableColumn'
+import type { DataRow } from '../../helpers/types/table/DataRow'
+import type { DataTableProps } from '../../helpers/types/table/DataTableProps'
 import '../../styles/components/data-table.scss'
-
-type DataRow = Record<string, unknown>
-
-export type DataTableColumn<T extends DataRow> = {
-  header: string
-  key?: keyof T
-  accessor?: (row: T) => ReactNode
-  className?: string
-  align?: 'left' | 'center' | 'right'
-  width?: string
-}
-
-export type DataTableRowAction<T extends DataRow> = {
-  label: string
-  onClick: (row: T) => void
-  icon?: LucideIcon
-  variant?: 'default' | 'danger' | 'ghost'
-  disabled?: boolean
-}
-
-type DataTableProps<T extends DataRow> = {
-  data: T[]
-  columns: Array<DataTableColumn<T>>
-  getRowId: (row: T, index: number) => string
-  isLoading?: boolean
-  loadingLabel?: string
-  emptyLabel?: string
-  className?: string
-  rowActions?: Array<DataTableRowAction<T>>
-  actionsHeader?: string
-}
 
 const alignmentClassname = (align: DataTableColumn<DataRow>['align']) => {
   if (!align) return ''
@@ -124,6 +95,7 @@ export function DataTable<T extends DataRow>({
                   {rowActions.map((action) => {
                     const Icon = action.icon
                     const variant = action.variant ?? 'default'
+                    const color = variant === 'danger' ? 'red' : undefined
 
                     return (
                       <button
@@ -136,8 +108,12 @@ export function DataTable<T extends DataRow>({
                         onClick={() => action.onClick(row)}
                         disabled={action.disabled}
                       >
-                        {Icon ? <Icon size={16} aria-hidden="true" /> : null}
-                        <span>{action.label}</span>
+                        {Icon ? <Icon size={16} aria-hidden="true" color={color} /> : null}
+                        {
+                          action.label ?
+                          <span>{action.label}</span>
+                          : null
+                        }
                       </button>
                     )
                   })}
