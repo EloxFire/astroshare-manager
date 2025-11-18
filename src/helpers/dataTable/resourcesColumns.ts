@@ -5,6 +5,14 @@ import { truncateText } from "../utils/truncateText";
 
 export const ResourcesColumns: DataTableColumn<Resource>[] = [
   {
+    header: "ID",
+    accessor: (resource) => truncateText(resource._id, 8),
+    copy: {
+      label: "Copier l'ID de la ressource",
+      getValue: (resource) => resource._id
+    }
+  },
+  {
     header: "Titre",
     accessor: (resource) => truncateText(resource.title, 20),
   },

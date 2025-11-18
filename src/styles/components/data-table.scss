@@ -42,6 +42,7 @@
     font-size: global.$font-size-base;
     border-bottom: 1px solid rgba(global.$white, 0.06);
     text-align: left;
+    color: global.$white;
 
     &--left {
       text-align: left;
@@ -60,6 +61,39 @@
       text-align: center;
       font-style: italic;
       opacity: 0.7;
+    }
+  }
+
+  &__cell-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__copy-button {
+    appearance: none;
+    border: none;
+    background: none;
+    padding: 2px;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: rgba(global.$white, 0.5);
+    transition: color 0.2s ease, transform 0.2s ease;
+    line-height: 1;
+    border-radius: 4px;
+
+    &:hover {
+      color: rgba(global.$white, 0.85);
+      transform: scale(1.05);
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgba(global.$accent, 0.6);
+      outline-offset: 2px;
+      color: global.$accent;
     }
   }
 

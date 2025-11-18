@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { DataTable } from "../../components/table/DataTable";
 import { DashboardCard } from "../../components/cards/DashboardCard";
 import { BookMarked, Eye } from "lucide-react";
@@ -6,15 +6,17 @@ import type { Resource } from "../../helpers/types/Resource";
 import AddResource from "../../components/forms/AddResource";
 import { ResourcesColumns } from "../../helpers/dataTable/resourcesColumns";
 import "../../styles/pages/contents/app-resources.scss"
-import { ResourcesTableActions } from "../../helpers/dataTable/resourcesTableActionsRow";
+import { createResourcesTableActions } from "../../helpers/dataTable/resourcesTableActionsRow";
+import { useToast } from "../../hooks/useToast";
 
 export const ResourcesPage = () => {
 
   const [currentMode, setCurrentMode] = useState<"view" | "add">("view");
   const [resources, setResources] = useState<Resource[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { showToast } = useToast();
 
-  const fetchResources = async () => {
+  const fetchResources = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/resources`);
@@ -28,11 +30,11 @@ export const ResourcesPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchResources();
-  }, [])
+    void fetchResources();
+  }, [fetchResources])
 
   return (
     <div className="main-pane app-resources-page">
@@ -61,7 +63,7 @@ export const ResourcesPage = () => {
                   isLoading={isLoading}
                   loadingLabel="Chargement des ressources…"
                   emptyLabel="Aucune ressource n'est disponible pour le moment."
-                  rowActions={ResourcesTableActions}
+                  rowActions={createResourcesTableActions({ fetchResources, showToast })}
                 />
               </div>
             </>

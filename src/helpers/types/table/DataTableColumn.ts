@@ -8,4 +8,10 @@ export type DataTableColumn<T extends DataRow> = {
   className?: string
   align?: 'left' | 'center' | 'right'
   width?: string
+  copy?: boolean | {
+    label?: string
+    getValue?: (row: T) => string | number | boolean | null | undefined
+    successMessage?: string
+    errorMessage?: string
+  }
 }

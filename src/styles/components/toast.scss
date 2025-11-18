@@ -1,0 +1,84 @@
+@use '../global.scss' as global;
+
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.toast {
+  min-width: 240px;
+  max-width: 360px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(global.$black, 0.9);
+  border: 1px solid rgba(global.$white, 0.1);
+  color: global.$white;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
+  animation: toast-slide-in 0.2s ease;
+
+  &__icon {
+    flex-shrink: 0;
+  }
+
+  &__message {
+    flex: 1;
+    font-size: global.$font-size-sm;
+  }
+
+  &__close {
+    appearance: none;
+    border: none;
+    background: none;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      background-color: rgba(global.$white, 0.12);
+    }
+  }
+
+  &--neutral {
+    border-color: rgba(global.$accent, 0.3);
+  }
+
+  &--warning {
+    border-color: rgba(255, 193, 7, 0.5);
+    background: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+  }
+
+  &--error {
+    border-color: rgba(255, 76, 76, 0.6);
+    background: rgba(255, 76, 76, 0.12);
+    color: #ff4c4c;
+  }
+}
+
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
