@@ -1,4 +1,4 @@
-import { Edit3, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import type { DataTableRowAction } from "../types/table/DataTableRowAction";
 import type { ToastOptions } from "../../components/toast/ToastProvider";
 import type { Category } from "../types/Category";

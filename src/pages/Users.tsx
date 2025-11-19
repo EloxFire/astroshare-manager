@@ -1,11 +1,11 @@
 import { Users } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DataTable } from '../components/table/DataTable'
 import { DashboardCard } from '../components/cards/DashboardCard'
-import type { User } from '../helpers/types/User'
-import '../styles/pages/users.scss'
 import { usersColumns } from '../helpers/dataTable/usersColumns'
 import { createUsersTableActions } from '../helpers/dataTable/usersTableActionsRow'
+import type { User } from '../helpers/types/User'
+import '../styles/pages/users.scss'
 
 export const UsersPage = () => {
   const [users, setUsers] = useState<User[]>([])
@@ -42,7 +42,7 @@ export const UsersPage = () => {
         <DataTable
           data={users}
           columns={usersColumns}
-          rowActions={createUsersTableActions({ fetchUsers, showToast: (message, options) => {} })}
+          rowActions={createUsersTableActions({ fetchUsers, showToast: () => {} })}
           getRowId={(user) => user.uid}
           isLoading={isLoading}
           loadingLabel="Chargement des utilisateurs…"

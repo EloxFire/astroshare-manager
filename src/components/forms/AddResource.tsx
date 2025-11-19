@@ -4,8 +4,8 @@ import type { Resource } from '../../helpers/types/Resource';
 import type { Category } from '../../helpers/types/Category';
 import MDEditor from '@uiw/react-md-editor/nohighlight';
 import dayjs from 'dayjs';
-import '../../styles/components/forms/addResource.scss';
 import { useToast } from '../../hooks/useToast';
+import '../../styles/components/forms/addResource.scss';
 
 interface AddResourceProps {
   onResourceAdded: () => void;
@@ -116,7 +116,7 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
       setLoading(false);
 
       onResourceAdded();
-      showToast('Ressource ajoutée.', { type: 'success' });
+      showToast('Ressource ajoutée.', { type: 'neutral' });
     } catch (error) {
       console.log('[AddResource] Erreur lors de l\'ajout de la ressource :', error);
       setLoading(false);
