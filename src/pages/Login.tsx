@@ -23,6 +23,8 @@ export const LoginPage = () => {
 
     try {
       await loginUser(email, password);
+      console.log('[LoginPage] Login successful');
+      
       navigate(routes.home.path, { replace: true });
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Connexion impossible. Réessayez.';

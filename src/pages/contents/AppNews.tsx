@@ -1,72 +1,35 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { Eye, Newspaper } from "lucide-react"
 import { DashboardCard } from "../../components/cards/DashboardCard"
-import { DataTable, type DataTableColumn } from "../../components/table/DataTable"
+import { DataTable } from "../../components/table/DataTable"
 import type { AppNews } from "../../helpers/types/AppNews"
 import AddNewsBanner from "../../components/forms/AddNewsBanner"
+import { appNewsColumns } from "../../helpers/dataTable/appNewsColumns"
+import { createAppNewsTableActions } from "../../helpers/dataTable/appNewsTableActionsRow"
+import { useToast } from "../../hooks/useToast"
 import "../../styles/pages/contents/app-news.scss"
 
 export const AppNewsPage = () => {
+
+  const { showToast } = useToast();
+
   const [news, setNews] = useState<AppNews[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  const dateFormatter = useMemo(() => new Intl.DateTimeFormat("fr-FR", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
-  }), [])
-
-  const columns = useMemo<DataTableColumn<AppNews>[]>(() => [
-    {
-      header: "Titre",
-      accessor: (item) => item.title.slice(0, 15) + (item.title.length > 15 ? '...' : '') || '—',
-    },
-    {
-      header: "Description",
-      accessor: (item) => item.description.slice(0, 30) + (item.description.length > 30 ? '...' : '') || '—',
-      width: "30%"
-    },
-    {
-      header: "Type",
-      key: "type",
-      align: "center"
-    },
-    {
-      header: "Lien",
-      accessor: (item) => {
-        const value = item.type === "external" ? item.externalLink.slice(0, 20) + (item.externalLink.length > 20 ? '...' : '') || '—' : item.internalRoute
-        return value || undefined
-      },
-      width: "20%"
-    },
-    {
-      header: "Visible",
-      accessor: (item) => item.visible ? "Oui" : "Non",
-      align: "center"
-    },
-    {
-      header: "Ordre",
-      accessor: (item) => item.order,
-      align: "right"
-    },
-  ], [dateFormatter])
+  const fetchNews = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/news`);
+      const data = await response.json();
+      setNews(data.data);
+    } catch (error) {
+      console.error("Error fetching news:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchNews = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/news`);
-        const data = await response.json();
-        setNews(data.data);
-      } catch (error) {
-        console.error("Error fetching news:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchNews();
   }, [])
 
@@ -81,8 +44,9 @@ export const AppNewsPage = () => {
         <div className='table-container'>
           <DataTable
             data={news}
-            columns={columns}
+            columns={appNewsColumns}
             getRowId={(item, index) => `${item.title}-${index}`}
+            rowActions={createAppNewsTableActions({ fetchNews, showToast })}
             isLoading={isLoading}
             loadingLabel="Chargement des actualités…"
             emptyLabel="Aucune actualité disponible pour le moment."
@@ -91,7 +55,7 @@ export const AppNewsPage = () => {
       </div>
       <div className="form-pane">
         <h1>Ajouter une actualité</h1>
-        <AddNewsBanner />
+        <AddNewsBanner onBannerAdded={fetchNews} />
       </div>
     </div>
   )

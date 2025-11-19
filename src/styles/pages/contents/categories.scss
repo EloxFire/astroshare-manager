@@ -1,0 +1,26 @@
+@use '../../global.scss' as global;
+
+.app-categories-page {
+  display: flex;
+  flex-direction: row !important;
+  gap: 20px;
+
+  .list-pane,
+  .form-pane {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    h1 {
+      margin-bottom: 15px;
+    }
+  }
+
+  .list-pane {
+    width: 60%;
+  }
+
+  .form-pane {
+    width: 40%;
+  }
+}

@@ -1,71 +1,41 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { FileText } from "lucide-react"
 import { DashboardCard } from "../../components/cards/DashboardCard"
-import { DataTable, type DataTableColumn } from "../../components/table/DataTable"
+import { DataTable } from "../../components/table/DataTable"
 import type { Changelog } from "../../helpers/types/Changelog"
 import AddChangelog from "../../components/forms/AddChangelog"
+import { ChangelogColumns } from "../../helpers/dataTable/changelogsColumns"
+import { createChangelogsTableActions } from "../../helpers/dataTable/changelogsTableActionsRow"
+import { useToast } from "../../hooks/useToast"
 import '../../styles/pages/contents/changelogs.scss'
 
 export const Changelogs = () => {
+
+  const { showToast } = useToast();
+
   const [logs, setLogs] = useState<Changelog[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  const dateFormatter = useMemo(() => new Intl.DateTimeFormat('fr-FR', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric'
-  }), [])
-
-  const columns = useMemo<DataTableColumn<Changelog>[]>(() => [
-    {
-      header: 'Version',
-      key: 'version'
-    },
-    {
-      header: 'Nom de version',
-      accessor: (log) => log.version_name.slice(0, 20) + (log.version_name.length > 20 ? '...' : '') || '—'
-    },
-    {
-      header: 'Date',
-      accessor: (log) => log.date ? dateFormatter.format(new Date(log.date)) : undefined
-    },
-    {
-      header: 'Breaking change',
-      accessor: (log) => log.breaking ? 'Oui' : 'Non',
-      align: 'center'
-    },
-    {
-      header: 'Visibilité',
-      accessor: (log) => log.visible ? 'Publique' : 'Masquée',
-      align: 'center'
-    },
-    {
-      header: 'Entrées',
-      accessor: (log) => log.changes?.length ?? 0,
-      align: 'right'
+  const fetchChangelogs = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/changelog/app`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      if (!response.ok) throw new Error('Failed to fetch changelogs')
+      const data: Changelog[] = await response.json()
+      setLogs(data)
+    } catch (error) {
+      console.error('Error fetching changelogs:', error)
+    } finally {
+      setIsLoading(false)
     }
-  ], [dateFormatter])
+  }
 
   useEffect(() => {
-    const fetchChangelogs = async () => {
-      setIsLoading(true)
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/changelog/app`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        if (!response.ok) throw new Error('Failed to fetch changelogs')
-        const data = await response.json()
-        setLogs(data.data)
-      } catch (error) {
-        console.error('Error fetching changelogs:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
     fetchChangelogs()
   }, [])
 
@@ -79,7 +49,8 @@ export const Changelogs = () => {
         <div className='table-container'>
           <DataTable
             data={logs}
-            columns={columns}
+            columns={ChangelogColumns}
+            rowActions={createChangelogsTableActions({ fetchChangelogs, showToast })}
             getRowId={(log, index) => `${log.version}-${index}`}
             isLoading={isLoading}
             loadingLabel="Chargement des changelogs…"
