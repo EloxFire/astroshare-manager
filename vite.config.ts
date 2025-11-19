@@ -7,6 +7,9 @@ dotenv.config();
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: {
+    include: ["recharts", "react-is"],
+  },
   server: {
     host: true,
     open: true,
