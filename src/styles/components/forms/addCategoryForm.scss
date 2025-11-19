@@ -1,0 +1,99 @@
+@use '../../global.scss' as global;
+
+.category-add {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .category-add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: rgba(global.$white, 0.05);
+    border: 1px solid rgba(global.$white, 0.05);
+    border-radius: 10px;
+    padding: 16px;
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(global.$white, 0.15);
+      background: transparent;
+      color: global.$white;
+      font-family: inherit;
+      resize: none;
+    }
+
+    .visibility-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: rgba(global.$white, 0.85);
+    }
+
+    button {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      background-color: global.$accent;
+      color: global.$black;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s ease-in-out;
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .category-add-preview {
+    .category-preview-card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background-color: rgba(global.$white, 0.03);
+      border: 1px solid rgba(global.$white, 0.05);
+      border-radius: 10px;
+      padding: 16px;
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+
+        .category-title {
+          font-weight: 700;
+          color: global.$white;
+        }
+
+        .visibility-badge {
+          padding: 2px 10px;
+          border-radius: 999px;
+          font-size: global.$font-size-xs;
+          font-weight: 600;
+
+          &.is-visible {
+            background-color: rgba(global.$accent, 0.2);
+            color: global.$accent;
+          }
+
+          &.is-hidden {
+            background-color: rgba(global.$white, 0.08);
+            color: rgba(global.$white, 0.7);
+          }
+        }
+      }
+
+      .category-description {
+        margin: 0;
+        color: rgba(global.$white, 0.85);
+      }
+    }
+  }
+}

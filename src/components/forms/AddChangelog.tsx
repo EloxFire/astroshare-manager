@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
-import '../../styles/components/forms/addChangelogForm.scss';
 import type { Changelog } from '../../helpers/types/Changelog';
+import '../../styles/components/forms/addChangelogForm.scss';
+import dayjs from 'dayjs';
 
 export const AddChangelog = () => {
   const [version, setVersion] = useState('');
@@ -17,7 +18,7 @@ export const AddChangelog = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const payload: Changelog = {
+    const payload: Partial<Changelog> = {
       version: version.trim(),
       version_name: versionName.trim(),
       date: date ? new Date(date).toISOString() : new Date().toISOString(),
@@ -53,7 +54,7 @@ export const AddChangelog = () => {
     });
   };
 
-  const previewChangelog = useMemo<Changelog>(() => {
+  const previewChangelog = useMemo<Partial<Changelog>>(() => {
     const safeDate = date ? new Date(date).toISOString() : new Date().toISOString();
 
     return {
@@ -142,10 +143,10 @@ export const AddChangelog = () => {
             {previewChangelog.breaking && <span className="breaking-badge">Breaking</span>}
           </header>
           <time dateTime={previewChangelog.date}>
-            {new Date(previewChangelog.date).toLocaleString('fr-FR')}
+            {dayjs(previewChangelog.date).format('DD/MM/YYYY HH:mm')}
           </time>
           <ul>
-            {previewChangelog.changes.length > 0 ? (
+            {previewChangelog.changes && previewChangelog.changes.length > 0 ? (
               previewChangelog.changes.map((change, index) => (
                 <li key={`preview-change-${index}`}>{change}</li>
               ))

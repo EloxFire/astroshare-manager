@@ -6,6 +6,7 @@ import { DataTable } from "../../components/table/DataTable"
 import { createCategoriesTableActions } from "../../helpers/dataTable/categoriesTableActionsRow"
 import { categoriesColumns } from "../../helpers/dataTable/categoriesColumns"
 import type { Category } from "../../helpers/types/Category"
+import { AddCategory } from "../../components/forms/AddCategory"
 import "../../styles/pages/contents/categories.scss"
 
 export const CategoriesPage = () => {
@@ -54,7 +55,7 @@ export const CategoriesPage = () => {
       </div>
       <div className="form-pane">
         <h1>Ajouter une catégorie</h1>
-        {/*<AddNewsBanner /> */}
+        <AddCategory onCategoryAdded={fetchCategories} />
       </div>
     </div>
   );

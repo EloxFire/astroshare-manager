@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loader } from '../Loader';
 import type { Resource } from '../../helpers/types/Resource';
+import type { Category } from '../../helpers/types/Category';
 import MDEditor from '@uiw/react-md-editor/nohighlight';
 import dayjs from 'dayjs';
 import '../../styles/components/forms/addResource.scss';
+import { useToast } from '../../hooks/useToast';
 
 interface AddResourceProps {
   onResourceAdded: () => void;
@@ -11,6 +13,7 @@ interface AddResourceProps {
 
 export const AddResource = ({onResourceAdded}: AddResourceProps) => {
 
+  const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -23,6 +26,41 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
   const [subcategory, setSubcategory] = useState('');
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState<string[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchCategories = async () => {
+      setIsLoadingCategories(true);
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/categories`);
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des catégories');
+        }
+        const data: Category[] = await response.json();
+        if (isMounted) {
+          setCategories(data);
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.error('[AddResource] Erreur lors du chargement des catégories :', error);
+          showToast("Impossible de charger les catégories.", { type: 'error' });
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoadingCategories(false);
+        }
+      }
+    };
+
+    fetchCategories();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [showToast]);
 
   const handleAddTag = () => {
     const nextTag = tagInput.trim();
@@ -78,9 +116,11 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
       setLoading(false);
 
       onResourceAdded();
+      showToast('Ressource ajoutée.', { type: 'success' });
     } catch (error) {
       console.log('[AddResource] Erreur lors de l\'ajout de la ressource :', error);
       setLoading(false);
+      showToast("Impossible d'ajouter la ressource.", { type: 'error' });
     }
     console.log('[AddResource] Payload à envoyer :', payload, 'Contenu markdown :', value);
   };
@@ -151,14 +191,26 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
         </div>
         <div className="form-field">
           <label htmlFor="resource-category">Catégorie</label>
-          <input
-            type="text"
+          <select
             id="resource-category"
-            placeholder="Catégorie principale"
             value={category}
             onChange={(event) => setCategory(event.target.value)}
             required
-          />
+            disabled={isLoadingCategories || categories.length === 0}
+          >
+            <option value="" disabled>
+              {isLoadingCategories
+                ? 'Chargement des catégories…'
+                : categories.length === 0
+                  ? 'Aucune catégorie disponible'
+                  : 'Sélectionnez une catégorie'}
+            </option>
+            {categories.map((categoryItem) => (
+              <option key={categoryItem.id} value={categoryItem.title}>
+                {categoryItem.title}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="form-field">
           <label htmlFor="resource-subcategory">Sous-catégorie</label>
