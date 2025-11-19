@@ -12,6 +12,7 @@ import { useAuth } from './context/AuthContext.tsx';
 import { UserRoles } from './helpers/types/User.ts';
 import { ResourcesPage } from './pages/contents/Resources.tsx';
 import { CategoriesPage } from './pages/contents/Categories.tsx';
+import { StatisticsPage } from './pages/Statistics.tsx';
 
 const AppLayout = () => (
   <div id="app">
@@ -55,6 +56,7 @@ function App() {
             <Route path={routes.newsBanners.path} element={<AppNewsPage />} />
             <Route path={routes.resources.path} element={<ResourcesPage />} />
             <Route path={routes.categories.path} element={<CategoriesPage />} />
+            <Route path={routes.statistics.path} element={<StatisticsPage />} />
           </Route>
         </Route>
 

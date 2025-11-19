@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Crosshair, Database, FileText, House, Newspaper, PenBoxIcon, Users } from "lucide-react";
+import { Crosshair, Database, FileText, House, Newspaper, PenBoxIcon, TrendingUp, Users } from "lucide-react";
 
 type RouteConfig = {
   path: string;
@@ -55,5 +55,11 @@ export const routes: Record<string, RouteConfig> = {
     color: "#ff6900",
     Icon: Crosshair,
     parent: "contents"
+  },
+  statistics: {
+    path: "/statistics",
+    label: "Statistiques",
+    color: "#ff6900",
+    Icon: TrendingUp,
   }
 };

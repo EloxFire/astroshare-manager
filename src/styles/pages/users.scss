@@ -2,17 +2,6 @@
 
 .users-page {
 
-  .cards-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-
-  .mono{
-    font-family: 'DM Mono', monospace;
-    font-size: global.$font-size-sm;
-  }
-
   .muted{
     opacity: 0.4;
   }
