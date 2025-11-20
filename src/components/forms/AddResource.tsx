@@ -21,6 +21,7 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
   const [level, setLevel] = useState<number | ''>('');
   const [value, setValue] = useState("## Contenu de votre ressource\n\nVous pouvez utiliser le markdown pour formater le contenu de votre ressource.");
   const [downloadLink, setDownloadLink] = useState('');
+  const [illustration, setIllustration] = useState('');
   const [fileType, setFileType] = useState('');
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
@@ -84,9 +85,10 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
       visible,
       level: typeof level === 'number' ? level : 1,
       downloadLink: downloadLink.trim(),
+      illustrationUrl: illustration.trim(),
       content: value,
       fileType: fileType.trim(),
-      category: category.trim(),
+      category: category,
       subcategory: subcategory.trim() || undefined,
       tags,
       createdAt: dayjs().toISOString(),
@@ -161,6 +163,17 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
             required
           />
         </div>
+        <div className="form-field full-width">
+          <label htmlFor="resource-illustration">Illustration</label>
+          <input
+            type="url"
+            id="resource-illustration"
+            placeholder="https://…"
+            value={illustration}
+            onChange={(event) => setIllustration(event.target.value)}
+            required
+          />
+        </div>
         <div className="form-field">
           <label htmlFor="resource-file-type">Type de fichier</label>
           <input
@@ -206,7 +219,7 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
                   : 'Sélectionnez une catégorie'}
             </option>
             {categories.map((categoryItem) => (
-              <option key={categoryItem.id} value={categoryItem.title}>
+              <option key={categoryItem._id} value={categoryItem._id}>
                 {categoryItem.title}
               </option>
             ))}
@@ -215,6 +228,7 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
         <div className="form-field">
           <label htmlFor="resource-subcategory">Sous-catégorie</label>
           <input
+            disabled
             type="text"
             id="resource-subcategory"
             placeholder="(optionnel)"

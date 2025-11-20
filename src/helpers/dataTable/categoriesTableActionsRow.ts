@@ -20,7 +20,7 @@ export const createCategoriesTableActions = ({
     },
     onClick: async (category) => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/categories/${category.id}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/categories/${category._id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

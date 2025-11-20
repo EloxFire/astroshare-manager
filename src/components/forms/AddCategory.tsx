@@ -11,6 +11,7 @@ export const AddCategory = ({ onCategoryAdded }: AddCategoryProps) => {
   const { showToast } = useToast();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [visible, setVisible] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -20,8 +21,9 @@ export const AddCategory = ({ onCategoryAdded }: AddCategoryProps) => {
       description:
         description.trim() || 'Ajoutez une description pour voir un aperçu de la catégorie.',
       visible,
+      imageUrl: imageUrl.trim() || 'https://via.placeholder.com/150',
     };
-  }, [description, title, visible]);
+  }, [description, title, visible, imageUrl]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,9 +33,10 @@ export const AddCategory = ({ onCategoryAdded }: AddCategoryProps) => {
       return;
     }
 
-    const payload: Pick<Category, 'title' | 'description' | 'visible'> = {
+    const payload: Partial<Category> = {
       title: title.trim(),
       description: description.trim(),
+      illustrationUrl: imageUrl.trim() || undefined,
       visible,
     };
 
@@ -81,6 +84,12 @@ export const AddCategory = ({ onCategoryAdded }: AddCategoryProps) => {
           value={description}
           onChange={(event) => setDescription(event.target.value)}
           rows={3}
+        />
+        <input
+          type="text"
+          placeholder="URL de l'illustration (optionnel)"
+          value={imageUrl}
+          onChange={(event) => setImageUrl(event.target.value)}
         />
         <label className="visibility-toggle">
           <input

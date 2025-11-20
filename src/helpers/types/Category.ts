@@ -1,7 +1,8 @@
 export type Category = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
+  illustrationUrl?: string;
   visible: boolean;
   createdAt: string;
   updatedAt: string;
