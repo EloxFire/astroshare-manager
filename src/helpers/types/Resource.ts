@@ -4,7 +4,6 @@ export type Resource = {
   title: string;
   description: string;
   tags: string[];
-  downloadLink: string;
   content: string;
   fileType: string;
   level: number;
@@ -13,6 +12,8 @@ export type Resource = {
   createdAt: string;
   updatedAt: string;
   category: string;
+  pdfUrl?: string;
+  memoUrl?: string;
   illustrationUrl?: string;
   subcategory?: string;
 }

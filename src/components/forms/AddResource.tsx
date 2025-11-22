@@ -20,7 +20,8 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
   const [visible, setVisible] = useState(true);
   const [level, setLevel] = useState<number | ''>('');
   const [value, setValue] = useState("## Contenu de votre ressource\n\nVous pouvez utiliser le markdown pour formater le contenu de votre ressource.");
-  const [downloadLink, setDownloadLink] = useState('');
+  const [pdfUrl, setPdfUrl] = useState('');
+  const [memoUrl, setMemoUrl] = useState('');
   const [illustration, setIllustration] = useState('');
   const [fileType, setFileType] = useState('');
   const [category, setCategory] = useState('');
@@ -84,10 +85,11 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
       description: description.trim(),
       visible,
       level: typeof level === 'number' ? level : 1,
-      downloadLink: downloadLink.trim(),
-      illustrationUrl: illustration.trim(),
+      pdfUrl: pdfUrl.trim() !== '' ? pdfUrl.trim() : undefined,
+      memoUrl: memoUrl.trim() !== '' ? memoUrl.trim() : undefined,
+      illustrationUrl: illustration.trim() !== '' ? illustration.trim() : undefined,
       content: value,
-      fileType: fileType.trim(),
+      fileType: fileType.trim() !== '' ? fileType.trim() : undefined,
       category: category,
       subcategory: subcategory.trim() || undefined,
       tags,
@@ -109,10 +111,12 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
       setDescription('');
       setVisible(true);
       setLevel('');
-      setDownloadLink('');
+      setPdfUrl('');
       setFileType('');
       setCategory('');
       setSubcategory('');
+      setIllustration('');
+      setMemoUrl('');
       setTags([]);
       setValue("## Contenu de votre ressource\n\nVous pouvez utiliser le markdown pour formater le contenu de votre ressource.");
       setLoading(false);
@@ -152,15 +156,24 @@ export const AddResource = ({onResourceAdded}: AddResourceProps) => {
             rows={3}
           />
         </div>
-        <div className="form-field full-width">
-          <label htmlFor="resource-download-link">Lien de téléchargement</label>
+        <div className="form-field">
+          <label htmlFor="resource-download-link">Lien PDF</label>
           <input
             type="url"
             id="resource-download-link"
             placeholder="https://…"
-            value={downloadLink}
-            onChange={(event) => setDownloadLink(event.target.value)}
-            required
+            value={pdfUrl}
+            onChange={(event) => setPdfUrl(event.target.value)}
+          />
+        </div>
+        <div className="form-field">
+          <label htmlFor="resource-memo-link">Lien memo</label>
+          <input
+            type="url"
+            id="resource-memo-link"
+            placeholder="https://…"
+            value={memoUrl}
+            onChange={(event) => setMemoUrl(event.target.value)}
           />
         </div>
         <div className="form-field full-width">
