@@ -60,7 +60,7 @@ export const Changelogs = () => {
       </div>
       <div className="form-pane">
         <h1>Ajouter un changelog</h1>
-        <AddChangelog />
+        <AddChangelog onChangelogAdded={fetchChangelogs} />
       </div>
     </div>
   )

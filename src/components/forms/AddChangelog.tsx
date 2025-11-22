@@ -3,7 +3,11 @@ import type { Changelog } from '../../helpers/types/Changelog';
 import '../../styles/components/forms/addChangelogForm.scss';
 import dayjs from 'dayjs';
 
-export const AddChangelog = () => {
+interface AddChangelogProps {
+  onChangelogAdded: () => void;
+}
+
+export const AddChangelog = ({ onChangelogAdded }: AddChangelogProps) => {
   const [version, setVersion] = useState('');
   const [versionName, setVersionName] = useState('');
   const [date, setDate] = useState(() => {
@@ -14,10 +18,12 @@ export const AddChangelog = () => {
   const [breaking, setBreaking] = useState(false);
   const [visible, setVisible] = useState(true);
   const [changes, setChanges] = useState<string[]>(['']);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    setIsSubmitting(true);
     const payload: Partial<Changelog> = {
       version: version.trim(),
       version_name: versionName.trim(),
@@ -29,7 +35,21 @@ export const AddChangelog = () => {
       visible,
     };
 
-    console.log(payload);
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/changelog/app/new`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+        body: JSON.stringify(payload),
+      });
+    } catch (error) {
+      console.error('Error submitting changelog:', error);
+    }finally {
+      setIsSubmitting(false);
+      onChangelogAdded();
+    }
   };
 
   const handleChangeUpdate = (index: number, value: string) => {
@@ -132,7 +152,7 @@ export const AddChangelog = () => {
             + Ajouter un changement
           </button>
         </div>
-        <button type="submit">Ajouter</button>
+        <button disabled={isSubmitting} type="submit">{isSubmitting ? 'En cours...' : 'Ajouter'}</button>
       </form>
       <div className="changelog-add-preview">
         <p>Prévisualisation :</p>
