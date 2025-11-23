@@ -1,4 +1,4 @@
-import { Edit3, Trash2 } from "lucide-react";
+import { Edit3, Eye, Trash2 } from "lucide-react";
 import type { Resource } from "../types/Resource";
 import type { DataTableRowAction } from "../types/table/DataTableRowAction";
 import type { ToastOptions } from "../../components/toast/ToastProvider";
@@ -41,9 +41,28 @@ export const createResourcesTableActions = ({
     }
   },
   {
-    icon: Edit3,
-    onClick: (resource) => {
-      console.log(`${resource.visible ? "Masquer" : "Afficher"} la ressource :`, resource.title, resource.slug);
+    icon: Eye,
+    onClick: async (resource) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/resources/visibility/${resource._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            'authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          },
+          body: JSON.stringify({ visible: !resource.visible })
+        })
+
+        if (!response.ok) {
+          throw new Error('Erreur réseau')
+        }
+
+        showToast(`Ressource ${resource.title} éditée avec succès.`, { type: "neutral" })
+        await fetchResources()
+      } catch (error) {
+        console.error("Erreur lors de l'édition de la ressource :", error)
+        showToast(`Édition de la ressource ${resource.title} échouée.`, { type: "error" })
+      }
     },
     variant: "ghost"
   }

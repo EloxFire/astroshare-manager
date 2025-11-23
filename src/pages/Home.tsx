@@ -9,6 +9,7 @@ const Home = () => {
   
   const [loading, setLoading] = useState(true);
   const [resourcesCount, setResourcesCount] = useState<number>(0);
+  const [categoriesCount, setCategoriesCount] = useState<number>(0);
   const [usersCount, setUsersCount] = useState<number>(0);
   const [changelogsCount, setChangelogsCount] = useState<number>(0);
   const [eventsCount, setEventsCount] = useState<number>(0);
@@ -26,6 +27,10 @@ const Home = () => {
         const resources = await fetch(`${import.meta.env.VITE_API_URL}/stats/count/resources`, {headers});
         const resourcesData = await resources.json();
         setResourcesCount(resourcesData.count);
+
+        const categories = await fetch(`${import.meta.env.VITE_API_URL}/stats/count/categories`, {headers});
+        const categoriesData = await categories.json();
+        setCategoriesCount(categoriesData.count);
 
         const users = await fetch(`${import.meta.env.VITE_API_URL}/stats/count/users`, {headers});
         const usersData = await users.json();
@@ -57,6 +62,7 @@ const Home = () => {
 
       <div className='cards-container'>
         <DashboardCard small icon={Users} title="Ressources" loading={loading} value={resourcesCount} />
+        <DashboardCard small icon={Users} title="Catégories" loading={loading} value={categoriesCount} />
         <DashboardCard small icon={Users} title="Inscrits" loading={loading} value={usersCount} />
         <DashboardCard small icon={Users} title="Changelogs" loading={loading} value={changelogsCount} />
         <DashboardCard small icon={Users} title="Events" loading={loading} value={eventsCount} />

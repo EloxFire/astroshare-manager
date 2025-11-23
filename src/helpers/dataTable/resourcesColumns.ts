@@ -6,11 +6,7 @@ import { truncateText } from "../utils/truncateText";
 export const ResourcesColumns: DataTableColumn<Resource>[] = [
   {
     header: "ID",
-    accessor: (resource) => truncateText(resource._id, 8),
-    copy: {
-      label: "Copier l'ID de la ressource",
-      getValue: (resource) => resource._id
-    }
+    accessor: (resource) => truncateText(resource._id, 5),
   },
   {
     header: "Titre",
@@ -18,20 +14,20 @@ export const ResourcesColumns: DataTableColumn<Resource>[] = [
   },
   {
     header: "Description",
-    accessor: (resource) => truncateText(resource.description, 30),
+    accessor: (resource) => truncateText(resource.description, 25),
   },
-  {
-    header: "Catégorie",
-    key: "category",
-  },
-  {
-    header: "Sous-catégorie",
-    accessor: (resource) => resource.subcategory ?? undefined,
-  },
-  {
-    header: "Tags",
-    accessor: (resource) => resource.tags?.length ? truncateText(resource.tags.join(", "), 20) : undefined,
-  },
+  // {
+  //   header: "Catégorie",
+  //   accessor: (resource) => resource.category ?? undefined,
+  // },
+  // {
+  //   header: "Sous-catégorie",
+  //   accessor: (resource) => resource.subcategory ?? undefined,
+  // },
+  // {
+  //   header: "Tags",
+  //   accessor: (resource) => resource.tags?.length ? truncateText(resource.tags.join(", "), 20) : undefined,
+  // },
   {
     header: "Type",
     key: "fileType",

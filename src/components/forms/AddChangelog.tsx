@@ -44,9 +44,20 @@ export const AddChangelog = ({ onChangelogAdded }: AddChangelogProps) => {
         },
         body: JSON.stringify(payload),
       });
+
+      setVersion('');
+      setVersionName('');
+      setDate(() => {
+        const now = new Date();
+        now.setSeconds(0, 0);
+        return now.toISOString().slice(0, 16);
+      });
+      setBreaking(false);
+      setVisible(true);
+      setChanges(['']);
     } catch (error) {
       console.error('Error submitting changelog:', error);
-    }finally {
+    } finally {
       setIsSubmitting(false);
       onChangelogAdded();
     }

@@ -22,7 +22,7 @@ export const ChangelogColumns: DataTableColumn<Changelog>[] = [
     },
     {
       header: 'Visibilité',
-      accessor: (log) => log.visible ? 'Publique' : 'Masquée',
+      accessor: (log) => log.visible ? 'Publique' : 'Masqué',
       align: 'center'
     },
     {
