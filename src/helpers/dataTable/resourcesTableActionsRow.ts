@@ -1,4 +1,4 @@
-import { Edit3, Eye, Trash2 } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import type { Resource } from "../types/Resource";
 import type { DataTableRowAction } from "../types/table/DataTableRowAction";
 import type { ToastOptions } from "../../components/toast/ToastProvider";
