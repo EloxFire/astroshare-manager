@@ -5,6 +5,8 @@ export type AppNews = {
   icon: string;
   colors: string;
   type: string
+  startDate: Date | null;
+  endDate: Date | null;
   externalLink: string;
   internalRoute: string;
   visible: boolean;
